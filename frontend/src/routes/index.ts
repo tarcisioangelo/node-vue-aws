@@ -8,6 +8,10 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Login',
         component: LoginPage,
     },
+    {
+        path: '/:catchAll(.*)*',
+        component: () => import('../views/NotFound.vue'),
+    },
 ]
 
 const router = createRouter({
