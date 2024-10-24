@@ -20,4 +20,4 @@ name: Copy files with SSH
         REMOTE_HOST: ec2-184-72-100-214.compute-1.amazonaws.com
         REMOTE_USER: ec2-user
         TARGET: /home/ec2-user
-        EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh"
+        EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh, .git"
