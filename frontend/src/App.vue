@@ -1,11 +1,7 @@
-
-
 <template>
-  <main>
-      <RouterView />
-  </main>
+    <main>
+        <RouterView />
+    </main>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

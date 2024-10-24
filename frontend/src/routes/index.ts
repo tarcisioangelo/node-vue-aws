@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router'
 
-const LoginPage = () => import('../views/Login.vue')
+const LoginPage = () => import('@/views/Login.vue')
+const NotFoundPage = () => import('../views/NotFound.vue')
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -10,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/:catchAll(.*)*',
-        component: () => import('../views/NotFound.vue'),
+        component: NotFoundPage,
     },
 ]
 
