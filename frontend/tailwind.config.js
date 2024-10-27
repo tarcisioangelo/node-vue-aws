@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       colors: {
-        'primary': '#007BFF',
-        'primary-hover': '#0056b3',
+        'primary': '#4338ca',
+        'primary-hover': '#4f46e5',
         'secondary': '#43444a',
         'secondary-hover': '#2f3138',
         'success': '#20AF7B',
