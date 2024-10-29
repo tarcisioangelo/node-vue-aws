@@ -3,7 +3,7 @@
         <p class="text-[36px]">Login</p>
 
         <div class="p-8 mt-6 max-w-[400px] m-auto bg-component rounded-xl shadow-xl">
-            <form @submit.prevent="handleSubmit" class="flex flex-col space-y-1">
+            <form  class="flex flex-col space-y-1">
                 <div>
                     <label class="text-white/75" for="email">Email</label>
                     <input
