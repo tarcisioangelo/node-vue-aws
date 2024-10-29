@@ -1,13 +1,5 @@
-# node-vue-aws
-Projeto Para estudos
+# Vue 3 + TypeScript + Vite
 
-# AWS IP Public
-- ec2-user
-- ec2-184-72-100-214.compute-1.amazonaws.com
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-### To set up Node.js on your Linux instance
-- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-- source ~/.bashrc
-- nvm install --lts
-- node -e "console.log('Running Node.js ' + process.version)"
-
+Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
