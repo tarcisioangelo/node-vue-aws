@@ -33,3 +33,29 @@ phases:
   artifacts:
     files: $CODEBUILD_SRC_DIR/frontend/dist
   
+
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm i npm@latest -g
+      - pip install --upgrade pip
+      - pip install --upgrade awscli
+  pre_build:
+    commands:
+      - echo Pre_build Phase
+      - cd $CODEBUILD_SRC_DIR/frontend
+      - npm install
+  build:
+    commands:
+      - echo Build Phase
+      - npm run build
+  post_build:
+    commands:
+      - echo PostBuild Phase
+      - echo aws s3 sync ./dist $S3_BUCKET
+      
+artifacts:
+  files:
+    - 'dist/**/*'
