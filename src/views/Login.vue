@@ -1,10 +1,10 @@
 <template>
-    <div class="px-12 py-20">
+    <div class="w-full my-auto">
         <p class="text-[36px]">Login</p>
 
-        <div class="p-8 mt-6 max-w-[400px] m-auto bg-component rounded-xl shadow-xl">
-            <form  class="flex flex-col space-y-1">
-                <div>
+        <form>
+            <FormContainer>
+                <div class="col-span-12">
                     <label class="text-white/75" for="email">Email</label>
                     <input
                         class="w-full my-2 bg-input h-[50px] rounded-[10px] outlined-none px-4 focus:bg-input-line outline-none"
@@ -15,7 +15,7 @@
                         v-model="email"
                     />
                 </div>
-                <div>
+                <div class="col-span-12">
                     <label class="text-white/75" for="email">Senha</label>
                     <input
                         class="w-full my-2 bg-input h-[50px] rounded-[10px] outlined-none px-4 focus:bg-input-line outline-none"
@@ -26,24 +26,25 @@
                         v-model="password"
                     />
                 </div>
-                <div class="w-full text-center pt-4">
-                    <button class="w-full p-3 rounded-xl bg-primary font-bold hover:bg-primary-hover">
-                        Entrar no Usertasks
-                    </button>
-                </div>
+            </FormContainer>
+            <div class="w-64 m-auto text-center pt-4">
+                <DefaultButton text="Criar sua conta na Usertasks" />
+            </div>
 
-                <p @click="$router.push('/register')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
-            </form>
-        </div>
+            <p @click="$router.push('/register')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
+        </form>
     </div>
 </template>
 <script lang="ts">
+import FormContainer from '@/components/Form/FormContainer.vue'
+import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import { defineComponent, ref } from 'vue'
 // import DefaultCard from '@/components/DefaultCard.vue'
 
 export default defineComponent({
     components: {
-        // DefaultCard,
+        FormContainer,
+        DefaultButton,
     },
     setup() {
         const email = ref('')
