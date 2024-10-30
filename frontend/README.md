@@ -9,6 +9,7 @@ phases:
   pre_build:
     commands:
       - echo Pre_build Phase
+      - cd frontend
       - npm install
   build:
     commands:
@@ -17,4 +18,4 @@ phases:
   post_build:
     commands:
       - echo PostBuild Phase
-      - aws s3 sync ./dist s3://frontend-hide.cf
+      - aws s3 sync ./frontend/dist s3://frontend-hide.cf
