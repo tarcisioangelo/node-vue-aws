@@ -2,7 +2,7 @@
     <div class="w-full my-auto">
         <p class="text-[36px]">Login</p>
 
-        <form>
+        <form autocomplete="off">
             <FormContainer>
                 <div class="col-span-12">
                     <label class="text-white/75" for="email">Email</label>
@@ -28,7 +28,7 @@
                 </div>
             </FormContainer>
             <div class="w-64 m-auto text-center pt-4">
-                <DefaultButton text="Criar sua conta na Usertasks" />
+                <DefaultButton text="Entrar na Usertasks" />
             </div>
 
             <p @click="$router.push('/register')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
