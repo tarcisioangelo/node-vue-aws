@@ -32,7 +32,7 @@
                 <DefaultButton text="Entrar na Usertasks" />
             </div>
 
-            <p @click="$router.push('/register')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
+            <p @click="router.push('/register')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
         </form>
     </div>
 </template>
@@ -43,6 +43,7 @@ import { computed, defineComponent, reactive } from 'vue'
 import { helpers, email, required } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
     components: {
@@ -51,6 +52,7 @@ export default defineComponent({
         DefaultInputText,
     },
     setup() {
+        const router = useRouter()
         const userAuth = reactive({
             email: '',
             password: '',
@@ -70,13 +72,13 @@ export default defineComponent({
         const handleLogin = async () => {
             const isValid = await v$.value.$validate()
             if (isValid) {
-                console.log('Formulário válido:', userAuth)
+                router.push('/home')
             } else {
                 console.log('Formulário inválido')
             }
         }
 
-        return { userAuth, v$, handleLogin }
+        return { userAuth, router, v$, handleLogin }
     },
 })
 </script>

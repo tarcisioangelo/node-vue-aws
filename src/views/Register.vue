@@ -121,7 +121,7 @@ export default defineComponent({
         const handleSubmit = async () => {
             const isValid = await v$.value.$validate()
             if (isValid) {
-                console.log('Formulário válido:', newUser)
+                router.push('/login')
             } else {
                 console.log('Formulário inválido')
             }

@@ -1,5 +1,5 @@
 <template>
-    <label class="text-white/75" :for="props.name">
+    <label class="text-white/75 font-semibold text-sm" :for="props.name">
         {{ props.label }}
 
         <span v-show="props.required" class="text-red-900">*</span>
@@ -45,6 +45,6 @@ const errorMessage = computed(() => {
 
 <style scoped>
 .input_default {
-    @apply w-full my-2 bg-input h-[50px] rounded-[10px] px-4 focus:bg-input-line outline-none;
+    @apply w-full mb-2 bg-input h-[50px] rounded-[10px] px-4 focus:bg-input-line outline-none;
 }
 </style>
