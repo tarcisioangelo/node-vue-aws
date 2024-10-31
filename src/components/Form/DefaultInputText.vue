@@ -13,11 +13,14 @@
         :placeholder="props.placeholder"
     />
 
-    <div v-if="props.error" class="text-red-500 text-xs">
-        {{ props.error }}
+    <div v-show="errorMessage" class="text-red-500 text-xs">
+        {{ errorMessage }}
     </div>
 </template>
 <script lang="ts" setup>
+import type { Validation } from '@vuelidate/core'
+import { computed } from 'vue'
+
 interface Props {
     id: string
     name: string
@@ -25,7 +28,7 @@ interface Props {
     type?: string
     label?: string
     placeholder?: string
-    error?: string
+    v$: Record<string, Validation>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -33,6 +36,11 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const model = defineModel()
+
+const errorMessage = computed(() => {
+    const fieldValidation = props.v$[props.name]
+    return fieldValidation?.$error ? fieldValidation.$errors[0]?.$message : undefined
+})
 </script>
 
 <style scoped>

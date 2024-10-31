@@ -12,7 +12,7 @@
                         name="email"
                         label="Email"
                         placeholder="teste@gmail.com"
-                        :error="v$.email.$error ? v$.email.$errors[0].$message : undefined"
+                        :v$="v$"
                     />
                 </div>
                 <div class="col-span-12">
@@ -24,7 +24,7 @@
                         type="password"
                         label="Senha"
                         placeholder="Digite sua senha"
-                        :error="v$.password.$error ? v$.password.$errors[0].$message : undefined"
+                        :v$="v$"
                     />
                 </div>
             </FormContainer>
