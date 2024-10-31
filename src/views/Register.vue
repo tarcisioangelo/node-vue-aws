@@ -68,66 +68,56 @@
         <p @click="router.push('/login')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
     </form>
 </template>
-<script lang="ts">
-import { computed, defineComponent, reactive } from 'vue'
+<script lang="ts" setup>
+import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+
+// validation
+import useVuelidate from '@vuelidate/core'
+import { helpers, required, email, sameAs } from '@vuelidate/validators'
+
+// components
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
-import { helpers, required, email, sameAs } from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
 
-export default defineComponent({
-    components: {
-        DefaultButton,
-        FormContainer,
-        DefaultInputText,
-    },
-    setup() {
-        const router = useRouter()
+const router = useRouter()
 
-        const newUser = reactive({
-            name: '',
-            lastName: '',
-            email: '',
-            password: '',
-            passwordConfirm: '',
-        })
-        const rules = computed(() => ({
-            name: {
-                required: helpers.withMessage('Campo obrigatório', required),
-            },
-            lastName: {
-                required: helpers.withMessage('Campo obrigatório', required),
-            },
-            email: {
-                required: helpers.withMessage('Campo obrigatório', required),
-                email: helpers.withMessage('Email inválido', email),
-            },
-            password: {
-                required: helpers.withMessage('Campo obrigatório', required),
-            },
-            passwordConfirm: {
-                required: helpers.withMessage('Campo obrigatório', required),
-                sameAsPassword: helpers.withMessage(
-                    'As senhas devem ser iguais',
-                    sameAs(computed(() => newUser.password))
-                ),
-            },
-        }))
-
-        const v$ = useVuelidate(rules, newUser)
-
-        const handleSubmit = async () => {
-            const isValid = await v$.value.$validate()
-            if (isValid) {
-                router.push('/login')
-            } else {
-                console.log('Formulário inválido')
-            }
-        }
-
-        return { newUser, router, v$, handleSubmit }
-    },
+const newUser = reactive({
+    name: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
 })
+const rules = computed(() => ({
+    name: {
+        required: helpers.withMessage('Campo obrigatório', required),
+    },
+    lastName: {
+        required: helpers.withMessage('Campo obrigatório', required),
+    },
+    email: {
+        required: helpers.withMessage('Campo obrigatório', required),
+        email: helpers.withMessage('Email inválido', email),
+    },
+    password: {
+        required: helpers.withMessage('Campo obrigatório', required),
+    },
+    passwordConfirm: {
+        required: helpers.withMessage('Campo obrigatório', required),
+        sameAsPassword: helpers.withMessage('As senhas devem ser iguais', sameAs(computed(() => newUser.password))),
+    },
+}))
+
+const v$ = useVuelidate(rules, newUser)
+
+const handleSubmit = async () => {
+    const isValid = await v$.value.$validate()
+    if (isValid) {
+        router.push('/login')
+    } else {
+        console.log('Formulário inválido')
+    }
+}
 </script>

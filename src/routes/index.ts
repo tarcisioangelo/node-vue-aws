@@ -13,7 +13,7 @@ const NotFoundPage = () => import('@/views/NotFound.vue')
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: '/user',
+        path: '/',
         component: DefaultLayout,
 
         children: [

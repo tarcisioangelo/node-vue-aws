@@ -36,49 +36,42 @@
         </form>
     </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
+import { computed, reactive } from 'vue'
+
+// validation
+import useVuelidate from '@vuelidate/core'
+import { helpers, email, required } from '@vuelidate/validators'
+
+// components
+import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
-import { computed, defineComponent, reactive } from 'vue'
-import { helpers, email, required } from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
-import DefaultInputText from '@/components/Form/DefaultInputText.vue'
-import { useRouter } from 'vue-router'
 
-export default defineComponent({
-    components: {
-        FormContainer,
-        DefaultButton,
-        DefaultInputText,
-    },
-    setup() {
-        const router = useRouter()
-        const userAuth = reactive({
-            email: '',
-            password: '',
-        })
-        const rules = computed(() => ({
-            email: {
-                required: helpers.withMessage('Campo obrigatório', required),
-                email: helpers.withMessage('Email inválido', email),
-            },
-            password: {
-                required: helpers.withMessage('Campo obrigatório', required),
-            },
-        }))
-
-        const v$ = useVuelidate(rules, userAuth)
-
-        const handleLogin = async () => {
-            const isValid = await v$.value.$validate()
-            if (isValid) {
-                router.push('/home')
-            } else {
-                console.log('Formulário inválido')
-            }
-        }
-
-        return { userAuth, router, v$, handleLogin }
-    },
+const router = useRouter()
+const userAuth = reactive({
+    email: '',
+    password: '',
 })
+const rules = computed(() => ({
+    email: {
+        required: helpers.withMessage('Campo obrigatório', required),
+        email: helpers.withMessage('Email inválido', email),
+    },
+    password: {
+        required: helpers.withMessage('Campo obrigatório', required),
+    },
+}))
+
+const v$ = useVuelidate(rules, userAuth)
+
+const handleLogin = async () => {
+    const isValid = await v$.value.$validate()
+    if (isValid) {
+        router.push('/home')
+    } else {
+        console.log('Formulário inválido')
+    }
+}
 </script>
