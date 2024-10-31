@@ -8,8 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
-
 defineProps<{
     text: string
     customClass?: string

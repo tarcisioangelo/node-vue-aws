@@ -23,6 +23,6 @@
     @apply flex md:flex-col  w-full md:w-1/2 h-full bg-indigo-700 justify-around items-center rounded-r-[40px] text-white p-5;
 }
 .second-child {
-    @apply w-full md:w-1/2 h-full bg-component rounded-tr-[15px] rounded-br-[15px] px-5 pt-[10%];
+    @apply w-full md:w-1/2 h-full bg-component rounded-tr-[15px] rounded-br-[15px] px-5 pt-14;
 }
 </style>

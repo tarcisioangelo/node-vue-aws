@@ -18,6 +18,11 @@ const routes: Array<RouteRecordRaw> = [
 
         children: [
             {
+                path: '',
+                name: 'Index',
+                redirect: '/login',
+            },
+            {
                 path: 'home',
                 name: 'Home',
                 component: HomePage,

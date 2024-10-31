@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full my-auto">
+    <div class="w-full">
         <p class="text-[36px]">Login</p>
 
         <form @submit.prevent="handleLogin" autocomplete="off">
