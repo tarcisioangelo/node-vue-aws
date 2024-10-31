@@ -15,7 +15,6 @@ defineProps<{
     customClass?: string
 }>()
 
-console.log('`TESTEEEEEE')
 const emit = defineEmits<{
     (e: 'click'): void
 }>()

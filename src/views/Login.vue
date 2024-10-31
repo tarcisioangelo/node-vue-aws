@@ -5,33 +5,27 @@
         <form @submit.prevent="handleLogin" autocomplete="off">
             <FormContainer>
                 <div class="col-span-12">
-                    <label class="text-white/75" for="email">Email</label>
-                    <input
+                    <DefaultInputText
+                        required
                         v-model="userAuth.email"
-                        class="w-full my-2 bg-input h-[50px] rounded-[10px] outlined-none px-4 focus:bg-input-line outline-none"
-                        type="text"
                         id="email"
                         name="email"
+                        label="Email"
                         placeholder="teste@gmail.com"
+                        :error="v$.email.$error ? v$.email.$errors[0].$message : undefined"
                     />
-
-                    <div v-if="v$.email.$error" class="text-red-500">
-                        {{ v$.email.$errors[0].$message }}
-                    </div>
                 </div>
                 <div class="col-span-12">
-                    <label class="text-white/75" for="email">Senha</label>
-                    <input
+                    <DefaultInputText
+                        required
                         v-model="userAuth.password"
-                        class="w-full my-2 bg-input h-[50px] rounded-[10px] outlined-none px-4 focus:bg-input-line outline-none"
-                        type="password"
                         id="password"
                         name="password"
-                        placeholder="digite sua senha"
+                        type="password"
+                        label="Senha"
+                        placeholder="Digite sua senha"
+                        :error="v$.password.$error ? v$.password.$errors[0].$message : undefined"
                     />
-                    <div v-if="v$.password.$error" class="text-red-500">
-                        {{ v$.password.$errors[0].$message }}
-                    </div>
                 </div>
             </FormContainer>
             <div class="w-64 m-auto text-center pt-4">
@@ -48,11 +42,13 @@ import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import { computed, defineComponent, reactive } from 'vue'
 import { helpers, email, required } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
+import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 
 export default defineComponent({
     components: {
         FormContainer,
         DefaultButton,
+        DefaultInputText,
     },
     setup() {
         const userAuth = reactive({
