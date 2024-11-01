@@ -1,5 +1,5 @@
 <template>
-    HOMEEE
+    HOMEEE <span class="material-icons">home</span>
 
     <div v-if="tasks.length > 0" class="flex flex-col gap-3">
         <div
