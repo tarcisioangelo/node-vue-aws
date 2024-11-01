@@ -7,7 +7,7 @@ const DefaultLayout = () => import('@/layouts/DefaultLayout.vue')
 // pages
 const LoginPage = () => import('@/views/Login.vue')
 const RegisterPage = () => import('@/views/Register.vue')
-const HomePage = () => import('@/views/Home.vue')
+const TasksPage = () => import('@/views/Tasks.vue')
 
 const NotFoundPage = () => import('@/views/NotFound.vue')
 
@@ -23,9 +23,9 @@ const routes: Array<RouteRecordRaw> = [
                 redirect: '/login',
             },
             {
-                path: 'home',
-                name: 'Home',
-                component: HomePage,
+                path: 'tasks',
+                name: 'Tasks',
+                component: TasksPage,
             },
         ],
     },

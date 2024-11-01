@@ -2,14 +2,17 @@
     <header class="custom-header">
         <div class="logo-box">
             <img src="/logo.png" width="40px" height="40px" />
-            <label class="font-bold">USERTASKS</label>
+            <label class="font-bold text-xl md:text-3xl">USERTASKS</label>
+        </div>
+        <div class="rounded-[50%] flex bg-input text-[20px] w-10 h-10 px-1">
+            <label class="m-auto">FM</label>
         </div>
     </header>
 </template>
 
 <style scoped>
 .custom-header {
-    @apply bg-component  h-[68px] shadow-2xl flex justify-between items-center py-3 px-8 text-3xl font-semibold text-white;
+    @apply bg-component  h-[68px] shadow-2xl flex justify-between items-center py-3 px-2 md:px-8 text-3xl font-semibold text-white;
 }
 .logo-box {
     @apply flex items-center gap-3 cursor-pointer;

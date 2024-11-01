@@ -2,7 +2,9 @@
     <div class="loggedin-content">
         <CustomHeader />
         <main>
-            <RouterView />
+            <div class="container-content">
+                <RouterView />
+            </div>
         </main>
     </div>
 </template>

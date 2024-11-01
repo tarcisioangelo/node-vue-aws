@@ -69,7 +69,7 @@ const v$ = useVuelidate(rules, userAuth)
 const handleLogin = async () => {
     const isValid = await v$.value.$validate()
     if (isValid) {
-        router.push('/home')
+        router.push('/tasks')
     } else {
         console.log('Formulário inválido')
     }
