@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Avatar from './Avatar.vue'
+import UserInfo from './UserInfo.vue'
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import Avatar from './Avatar.vue'
             <img src="/logo.png" width="40px" height="40px" />
             <label class="font-bold text-xl md:text-3xl">USERTASKS</label>
         </div>
-        <Avatar text="FM" />
+        <UserInfo />
     </header>
 </template>
 

@@ -20,6 +20,6 @@ const handleClick = () => {
 </script>
 <style scoped>
 .avatar {
-    @apply rounded-[50%] flex bg-input-line text-[20px] w-10 h-10 xl:w-12 xl:h-12 px-1;
+    @apply rounded-[50%] flex bg-input-line text-[20px] w-10 h-10 px-1;
 }
 </style>
