@@ -1,12 +1,14 @@
+<script lang="ts" setup>
+import Avatar from './Avatar.vue'
+</script>
+
 <template>
     <header class="custom-header">
         <div class="logo-box">
             <img src="/logo.png" width="40px" height="40px" />
             <label class="font-bold text-xl md:text-3xl">USERTASKS</label>
         </div>
-        <div class="rounded-[50%] flex bg-input text-[20px] w-10 h-10 px-1">
-            <label class="m-auto">FM</label>
-        </div>
+        <Avatar text="FM" />
     </header>
 </template>
 
