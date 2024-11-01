@@ -1,8 +1,8 @@
 <template>
     <div class="w-full">
-        <p class="text-[36px]">Login</p>
-
         <form @submit.prevent="handleLogin" autocomplete="off">
+            <p class="text-[36px]">Login:</p>
+            <p class="text-lg text-center">Faça login e mantenha suas tarefas atualizadas!</p>
             <FormContainer>
                 <div class="col-span-12">
                     <DefaultInputText
@@ -28,7 +28,7 @@
                     />
                 </div>
             </FormContainer>
-            <div class="w-64 m-auto text-center pt-4">
+            <div class="w-full m-auto text-center pt-4">
                 <DefaultButton text="Entrar na Usertasks" />
             </div>
 

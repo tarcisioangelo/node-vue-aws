@@ -1,16 +1,18 @@
 <template>
     <div class="loggedin-content">
-        <header>
-            <nav>CABEÇALHO</nav>
-        </header>
+        <CustomHeader />
         <main>
             <RouterView />
         </main>
     </div>
 </template>
 
+<script lang="ts" setup>
+import CustomHeader from '@/components/Navigation/CustomHeader.vue'
+</script>
+
 <style scoped>
 .loggedin-content {
-    @apply flex flex-col h-[100vh]  bg-component;
+    @apply flex flex-col h-[100vh]  bg-background;
 }
 </style>
