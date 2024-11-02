@@ -16,15 +16,21 @@
         <div
             v-for="task in tasks"
             :key="task.id"
-            class="flex flex-wrap border border-input-line items-center p-3 rounded-[10px] gap-2 font-thin text-lg border-l-primary/50 border-l-8"
+            class="flex flex-wrap border border-input-line items-center p-3 rounded-[10px] gap-2 font-thin text-lg border-l-8"
+            :class="{ 'border-l-success': isTaskDone(task.id) }"
         >
             <p class="flex-1 text-xl">
-                <input type="checkbox" class="h-[1rem] w-[1rem] mt-1.5 mr-4 accent-success" />
+                <input
+                    v-model="donesTasks"
+                    :value="task.id"
+                    type="checkbox"
+                    class="h-[1rem] w-[2rem] mt-1.5 mr-4 accent-success cursor-pointer"
+                />
 
-                {{ task.title }}
+                <label :class="{ 'opacity-55 line-through': isTaskDone(task.id) }">{{ task.title }} </label>
             </p>
             <div class="flex gap-2">
-                <IconButton class="bg-warning/75" icon="edit" />
+                <IconButton class="bg-input" icon="edit" />
                 <IconButton class="bg-danger" icon="delete" />
             </div>
         </div>
@@ -38,7 +44,7 @@ import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import IconButton from '@/components/Buttons/IconButton.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import TitlePage from '@/components/Navigation/TitlePage.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 interface ITask {
     id: number
     title: string
@@ -56,4 +62,9 @@ const tasks: ITask[] = [
 ]
 
 const newTask = ref<string>('')
+const donesTasks = ref<number[]>([])
+
+const isTaskDone = computed(() => {
+    return (taskId: number) => donesTasks.value.includes(taskId)
+})
 </script>
