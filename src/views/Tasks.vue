@@ -1,10 +1,14 @@
 <template>
     <TitlePage />
 
-    <form class="mt-8 -pl-2">
-        <div class="flex gap-2">
-            <DefaultInputText v-model="newTask" id="newTask" name="newTask" placeholder="Adicionar tarefa" />
-            <DefaultButton text="Adicionar tarefa" customClass="h-[51px] !min-w-auto max-w-[300px]" />
+    <form class="mt-8">
+        <div class="flex">
+            <DefaultInputText v-model="newTask" id="newTask" name="newTask" placeholder="Digite o nome da tarefa..." />
+            <DefaultButton
+                text="Adicionar tarefa"
+                icon="add_circle"
+                customClass="ml-4 h-[51px] !min-w-auto max-w-[300px]"
+            />
         </div>
     </form>
 
@@ -12,15 +16,16 @@
         <div
             v-for="task in tasks"
             :key="task.id"
-            class="flex flex-wrap border border-input-line items-center p-3 rounded-[10px] gap-2 font-thin text-lg"
+            class="flex flex-wrap border border-input-line items-center p-3 rounded-[10px] gap-2 font-thin text-lg border-l-primary/50 border-l-8"
         >
-            <div>
-                <input type="checkbox" class="h-[1rem] w-[1rem] mt-1.5 accent-success" />
-            </div>
-            <p class="flex-1 text-xl">{{ task.title }}</p>
+            <p class="flex-1 text-xl">
+                <input type="checkbox" class="h-[1rem] w-[1rem] mt-1.5 mr-4 accent-success" />
+
+                {{ task.title }}
+            </p>
             <div class="flex gap-2">
-                <IconButton class="bg-primary" icon="edit" />
-                <IconButton class="bg-primary" icon="delete" />
+                <IconButton class="bg-warning/75" icon="edit" />
+                <IconButton class="bg-danger" icon="delete" />
             </div>
         </div>
     </div>

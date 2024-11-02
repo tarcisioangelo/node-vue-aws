@@ -20,7 +20,7 @@
     @apply flex flex-col  md:flex-row h-[100vh]  bg-component;
 }
 .first-child {
-    @apply flex md:flex-col  w-full md:w-1/2 h-full bg-indigo-700 justify-around items-center rounded-r-[40px] text-white p-5;
+    @apply flex md:flex-col  w-full md:w-1/2 h-full bg-primary justify-around items-center rounded-r-[40px] text-white p-5;
 }
 .second-child {
     @apply w-full md:w-1/2 h-full bg-component rounded-tr-[15px] rounded-br-[15px] px-5 pt-14;
