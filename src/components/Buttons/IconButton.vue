@@ -2,7 +2,7 @@
     <button
         @click="handleClick"
         :class="[
-            ' h-8 w-8 rounded-lg drop-shadow-2xl flex  font-semibold bg-input hover:bg-input-line  hover:font-extrabold',
+            ' h-8 w-8 rounded-lg drop-shadow-2xl flex  font-semibold bg-input hover:bg-input-line border border-primary hover:font-extrabold',
             customClass,
         ]"
     >

@@ -28,7 +28,7 @@ interface Props {
     type?: string
     label?: string
     placeholder?: string
-    v$: Record<string, Validation>
+    v$?: Record<string, Validation>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -38,8 +38,10 @@ const props = withDefaults(defineProps<Props>(), {
 const model = defineModel()
 
 const errorMessage = computed(() => {
-    const fieldValidation = props.v$[props.name]
-    return fieldValidation?.$error ? fieldValidation.$errors[0]?.$message : undefined
+    if (props.v$) {
+        const fieldValidation = props.v$[props.name]
+        return fieldValidation?.$error ? fieldValidation.$errors[0]?.$message : undefined
+    }
 })
 </script>
 
