@@ -48,8 +48,10 @@ import { helpers, email, required } from '@vuelidate/validators'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
+import { useToast } from 'vue-toastification'
 
 const router = useRouter()
+const toast = useToast()
 const userAuth = reactive({
     email: '',
     password: '',
@@ -69,6 +71,7 @@ const v$ = useVuelidate(rules, userAuth)
 const handleLogin = async () => {
     const isValid = await v$.value.$validate()
     if (isValid) {
+        toast.success('Autenticado com sucesso')
         router.push('/tasks')
     } else {
         console.log('Formulário inválido')

@@ -22,7 +22,7 @@ export default {
         'secondary': '#43444a',
         'secondary-hover': '#2f3138',
         'success': '#20AF7B',
-        'danger': '#FF6767',
+        'danger': '#ff6767',
         'placeholder-line': '#FFF',
         'warning': '#ffc82c',
         'background': '#181A1E',

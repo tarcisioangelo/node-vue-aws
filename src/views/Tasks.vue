@@ -2,12 +2,12 @@
     <TitlePage />
 
     <form class="mt-8">
-        <div class="flex">
+        <div class="flex flex-wrap md:flex-nowrap">
             <DefaultInputText v-model="newTask" id="newTask" name="newTask" placeholder="Digite o nome da tarefa..." />
             <DefaultButton
                 text="Adicionar tarefa"
                 icon="add_circle"
-                customClass="ml-4 h-[51px] !min-w-auto max-w-[300px]"
+                customClass="md:ml-4 h-[41px] md:h-[51px] !min-w-auto md:max-w-[300px]"
             />
         </div>
     </form>
@@ -19,19 +19,20 @@
             class="flex flex-wrap border border-input-line items-center p-3 rounded-[10px] gap-2 font-thin text-lg border-l-8"
             :class="{ 'border-l-success': isTaskDone(task.id) }"
         >
-            <p class="flex-1 text-xl">
+            <div class="w-[2rem] flex self-center h-full">
                 <input
                     v-model="donesTasks"
                     :value="task.id"
                     type="checkbox"
-                    class="h-[1rem] w-[2rem] mt-1.5 mr-4 accent-success cursor-pointer"
+                    class="h-[1rem] w-[2rem] mr-4 accent-success cursor-pointer"
                 />
-
+            </div>
+            <p class="md:flex-1 text-xl">
                 <label :class="{ 'opacity-55 line-through': isTaskDone(task.id) }">{{ task.title }} </label>
             </p>
-            <div class="flex gap-2">
+            <div class="flex gap-2 justify-end w-full md:w-auto">
                 <IconButton class="bg-input" icon="edit" />
-                <IconButton class="bg-danger" icon="delete" />
+                <IconButton class="bg-red-700" icon="delete" />
             </div>
         </div>
     </div>
@@ -57,7 +58,7 @@ const tasks: ITask[] = [
     },
     {
         id: 2,
-        title: 'Tarefa 2',
+        title: 'Tarefa 2 asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd ',
     },
 ]
 

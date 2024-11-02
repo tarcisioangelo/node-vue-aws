@@ -14,7 +14,7 @@ import UserInfo from './UserInfo.vue'
 
 <style scoped>
 .custom-header {
-    @apply bg-component  h-[68px] shadow-2xl flex justify-between items-center py-3 px-4 md:px-10 text-3xl font-semibold text-white;
+    @apply static top-0 w-full   bg-component  h-[68px] shadow-2xl flex justify-between items-center py-3 px-4 md:px-10 text-3xl font-semibold text-white;
 }
 .logo-box {
     @apply flex items-center gap-3 cursor-pointer;
