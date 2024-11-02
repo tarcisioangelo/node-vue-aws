@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center gap-2 mb-8">
+    <div class="flex items-center gap-2">
         <span class="material-icons-outlined !text-[56px] w-14">lists</span>
 
         <div class="flex flex-col leading-none">
