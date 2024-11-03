@@ -34,9 +34,7 @@ interface Props {
     customClass?: string
 }
 
-const { id, name, required, type, label, placeholder, v$, customClass } = withDefaults(defineProps<Props>(), {
-    type: 'text',
-})
+const { id, name, required, type = 'text', label, placeholder, v$, customClass } = defineProps<Props>()
 
 const input = ref<HTMLInputElement | null>(null)
 

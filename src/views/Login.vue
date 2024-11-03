@@ -38,7 +38,8 @@
 </template>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-import { computed, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
+import { api } from '@/globals/api'
 
 // validation
 import useVuelidate from '@vuelidate/core'
@@ -78,4 +79,9 @@ const handleLogin = async () => {
         console.log('Formulário inválido')
     }
 }
+
+onMounted(async () => {
+    const response = await api.get('/')
+    console.log(response)
+})
 </script>
