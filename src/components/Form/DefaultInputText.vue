@@ -1,16 +1,18 @@
 <template>
-    <label class="text-white/75 font-semibold text-sm" :for="props.name">
-        {{ props.label }}
+    <label class="text-white/75 font-semibold text-sm" :for="name">
+        {{ label }}
 
-        <span v-show="props.required" class="text-red-900">*</span>
+        <span v-show="required" class="text-red-900">*</span>
     </label>
     <input
+        v-bind="$attrs"
+        ref="input"
         v-model="model"
-        class="input_default"
-        :type="props.type"
-        :id="props.id"
-        :name="props.name"
-        :placeholder="props.placeholder"
+        :class="['input_default', customClass]"
+        :type="type"
+        :id="id"
+        :name="name"
+        :placeholder="placeholder"
     />
 
     <div v-show="errorMessage" class="text-red-500 text-xs">
@@ -19,7 +21,7 @@
 </template>
 <script lang="ts" setup>
 import type { Validation } from '@vuelidate/core'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 interface Props {
     id: string
@@ -29,17 +31,22 @@ interface Props {
     label?: string
     placeholder?: string
     v$?: Record<string, Validation>
+    customClass?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const { id, name, required, type, label, placeholder, v$, customClass } = withDefaults(defineProps<Props>(), {
     type: 'text',
 })
+
+const input = ref<HTMLInputElement | null>(null)
+
+defineExpose({ input })
 
 const model = defineModel()
 
 const errorMessage = computed(() => {
-    if (props.v$) {
-        const fieldValidation = props.v$[props.name]
+    if (v$) {
+        const fieldValidation = v$[name]
         return fieldValidation?.$error ? fieldValidation.$errors[0]?.$message : undefined
     }
 })
