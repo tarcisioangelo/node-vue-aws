@@ -5,8 +5,11 @@ import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import 'material-icons/iconfont/outlined.css'
 
-const options = {
-    position: 'bottom-center',
+const optionsToast = {
+    position: 'top-right',
+    toastClassName: '!transition !delay-0',
+
+    hideProgressBar: true,
     timeout: 2000,
     transition: 'Vue-Toastification__fade',
 }
@@ -17,5 +20,5 @@ import App from '@/App.vue'
 
 const app = createApp(App)
 app.use(router)
-app.use(Toast, options)
+app.use(Toast, optionsToast)
 app.mount('#app')

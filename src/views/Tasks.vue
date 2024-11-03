@@ -41,11 +41,12 @@
 </template>
 
 <script lang="ts" setup>
+import { useToast } from 'vue-toastification'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import IconButton from '@/components/Buttons/IconButton.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import TitlePage from '@/components/Navigation/TitlePage.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 interface ITask {
     id: number
     title: string
@@ -62,8 +63,13 @@ const tasks: ITask[] = [
     },
 ]
 
+const toast = useToast()
 const newTask = ref<string>('')
 const donesTasks = ref<number[]>([])
+
+onMounted(() => {
+    toast.success('bem vindo ')
+})
 
 const isTaskDone = computed(() => {
     return (taskId: number) => donesTasks.value.includes(taskId)

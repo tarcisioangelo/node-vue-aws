@@ -56,6 +56,7 @@ const userAuth = reactive({
     email: '',
     password: '',
 })
+
 const rules = computed(() => ({
     email: {
         required: helpers.withMessage('Campo obrigatório', required),
