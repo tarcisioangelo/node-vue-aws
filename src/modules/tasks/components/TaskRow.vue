@@ -12,49 +12,64 @@
             />
         </div>
         <p class="md:flex-1 text-xl">
-            <DefaultInputText
-                v-if="isEdit"
-                v-model="editText"
-                ref="inputRef"
-                id="editText"
-                name="editText"
-                placeholder="Digite o nome da tarefa..."
-                custom-class="!bg-transparent border-b !rounded-[0px] border-b-primary !mt-1 !mb-1"
-            />
+            <form v-if="isEdit" @submit.prevent="handleUpdate">
+                <div class="flex flex-wrap md:flex-nowrap">
+                    <DefaultInputText
+                        v-model="inputEditText"
+                        ref="inputRef"
+                        id="inputEditText"
+                        name="inputEditText"
+                        placeholder="Digite o nome da tarefa..."
+                        custom-class="!bg-transparent border-b !rounded-[0px] border-b-primary md:mt-1 md:mb-1"
+                    />                    
+                    <DefaultButton
+                        text="Atualizar"
+                        
+                        customClass="bg-success hover:bg-success md:ml-4 h-[41px] md:h-[51px] !min-w-auto text-xs md:max-w-[200px]"
+                    />
+                </div>
+            </form>
+            
 
             <label v-else :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.title }} </label>
         </p>
         <div v-if="!isEdit" class="flex gap-2 justify-end w-full md:w-auto">
-            <IconButton @click="ableEdit" class="bg-input" icon="edit" />
-            <IconButton class="bg-red-700" icon="delete" />
+            <IconButton v-if="!reactiveIsTaskDone" @click="ableEdit" class="bg-input" icon="edit" />
+            <IconButton @click="handleDelete" class="bg-red-700 hover:bg-red-500" icon="delete" />
         </div>
     </div>
 </template>
 <script lang="ts" setup>
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
+import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import IconButton from '@/components/Buttons/IconButton.vue'
+import { useToast } from 'vue-toastification'
 
 import type { ITask } from '@/modules/tasks/types'
-import { nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 
 interface Props {
     task: ITask
     isTaskDone: boolean
 }
 
+const toast = useToast()
 const { task, isTaskDone } = defineProps<Props>()
 
+const reactiveIsTaskDone = computed(() => isTaskDone)
+
 const model = defineModel()
+
 
 const isEdit = ref<boolean>(false)
 
 const inputRef = ref<{ input: HTMLInputElement } | null>(null)
 
-const editText = ref<string>('')
+const inputEditText = ref<string>('')
 
 onMounted(() => {
     if (task) {
-        editText.value = task.title
+        inputEditText.value = task.title
     }
 })
 
@@ -65,4 +80,39 @@ const ableEdit = async () => {
         inputRef.value.input.focus()
     }
 }
+
+// funcao que atualiza a tarefa
+const handleUpdate = () => {
+
+    const payloadUpdate = [
+        {
+            id: task.id,
+            title: inputEditText.value
+        }
+    ]
+
+    console.log(payloadUpdate)
+
+    toast.success('Atualizado com sucesso')
+
+    isEdit.value = false
+}
+
+// funcao que atualiza a tarefa
+const handleDelete = () => {
+
+    console.log(task.id)
+
+    toast.success('deletado com sucesso')
+
+
+}
+
+watch(reactiveIsTaskDone, (newValue)=> {
+    if(newValue){
+
+        isEdit.value = false
+    }
+
+})
 </script>
