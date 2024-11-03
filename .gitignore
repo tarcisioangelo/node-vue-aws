@@ -1,7 +1,4 @@
-# all
+
 node_modules
 dist
-# backend
-
-
-# frontend
+.env 
