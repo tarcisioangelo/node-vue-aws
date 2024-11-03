@@ -3,7 +3,7 @@
         class="flex flex-wrap border border-input-line items-center p-3 rounded-[10px] gap-2 font-thin text-lg border-l-8"
         :class="{ 'border-l-success': isTaskDone }"
     >
-        <div class="w-[2rem] flex self-center h-full">
+        <div class="flex-1 md:flex-none md:w-[2rem] flex order-1 self-center h-full">
             <input
                 v-model="model"
                 :value="task.id"
@@ -11,7 +11,7 @@
                 class="h-[1rem] w-[2rem] mr-4 accent-success cursor-pointer"
             />
         </div>
-        <p class="md:flex-1 text-xl">
+        <p class="w-full md:flex-1 order-3 md:order-2 text-xl">
             <form v-if="isEdit" @submit.prevent="handleUpdate">
                 <div class="flex flex-wrap md:flex-nowrap">
                     <DefaultInputText
@@ -31,9 +31,9 @@
             </form>
             
 
-            <label v-else :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.title }} </label>
+            <label v-else  :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.title }} </label>
         </p>
-        <div v-if="!isEdit" class="flex gap-2 justify-end w-full md:w-auto">
+        <div v-if="!isEdit" class="flex gap-2 order-2 md:order-3 justify-end w-auto">
             <IconButton v-if="!reactiveIsTaskDone" @click="ableEdit" class="bg-input" icon="edit" />
             <IconButton @click="handleDelete" class="bg-red-700 hover:bg-red-500" icon="delete" />
         </div>
