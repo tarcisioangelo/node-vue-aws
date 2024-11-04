@@ -1,7 +1,7 @@
 <template>
     <TitlePage title="Tarefas" :description="descriptionPage" icon="checklist" />
 
-    <form class="mt-8" @submit.prevent="handleAdd">
+    <form class="mt-8" @submit.prevent="() => handleAdd">
         <div class="flex flex-wrap md:flex-nowrap">
             <DefaultInputText v-model="newTask" id="newTask" name="newTask" placeholder="Digite o nome da tarefa..." />
             <DefaultButton
@@ -20,6 +20,8 @@
             v-model="donesTasks"
             :task="task"
             :isTaskDone="isTaskDone(task.id)"
+            @task-deleted="getAll"
+            @task-updated="handleAdd"
         />
     </div>
 
@@ -63,12 +65,15 @@ const isTaskDone = computed(() => {
     return (taskId?: number) => (taskId ? donesTasks.value.includes(taskId) : false)
 })
 
-const handleAdd = async () => {
+const handleAdd = async (taskParam: ITask | undefined = undefined) => {
     try {
-        const payloadTask = {
-            dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
-            description: newTask.value,
-            stTask: 'A',
+        console.log(taskParam)
+
+        const payloadTask: ITask = {
+            id: taskParam ? taskParam.id : undefined,
+            dateTask: taskParam ? taskParam.dateTask : dayjs().format('YYYY-MM-DD HH:mm'),
+            description: taskParam ? taskParam.description : newTask.value,
+            stTask: taskParam ? taskParam.stTask : 'A',
         }
 
         await apiSaveTask(payloadTask)

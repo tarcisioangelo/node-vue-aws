@@ -15,3 +15,9 @@ export const apiSaveTask = async (payload: ITask) => {
 
     return data
 }
+
+export const apiDeleteTask = async (idTask: number) => {
+    const headers = getHeaders()
+    const url = `/tasks/${idTask}`
+    return api.delete(url, headers)
+}

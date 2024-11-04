@@ -47,10 +47,12 @@ import { useToast } from 'vue-toastification'
 
 import type { ITask } from '@/modules/tasks/types'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { apiDeleteTask } from '../service'
 
 interface Props {
     task: ITask
     isTaskDone: boolean
+  
 }
 
 const toast = useToast()
@@ -66,6 +68,11 @@ const isEdit = ref<boolean>(false)
 const inputRef = ref<{ input: HTMLInputElement } | null>(null)
 
 const inputEditText = ref<string>('')
+
+const emit = defineEmits<{
+    (e: 'taskDeleted'): void;
+    (e: 'taskUpdated', task: ITask): void
+}>();
 
 onMounted(() => {
     if (task) {
@@ -83,27 +90,32 @@ const ableEdit = async () => {
 
 // funcao que atualiza a tarefa
 const handleUpdate = () => {
+    const updatedTask = {
+        id: task.id,
+        description: inputEditText.value,
+        stTask: task.stTask 
+    }
 
-    const payloadUpdate = [
-        {
-            id: task.id,
-            title: inputEditText.value
-        }
-    ]
-
-    console.log(payloadUpdate)
-
-    toast.success('Atualizado com sucesso')
-
+    emit('taskUpdated', updatedTask) 
     isEdit.value = false
+    toast.success('Tarefa atualizada com sucesso')
 }
 
 // funcao que atualiza a tarefa
-const handleDelete = () => {
+const handleDelete = async() => {
 
-    console.log(task.id)
+    try {
 
-    toast.success('deletado com sucesso')
+        await apiDeleteTask(task.id!)
+
+        toast.success('Tarefa deletada com sucesso!')
+        
+        emit('taskDeleted');
+        
+    } catch (error: any) {
+        toast.error(error.message)
+    }
+   
 
 
 }
