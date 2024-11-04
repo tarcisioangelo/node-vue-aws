@@ -1,13 +1,14 @@
 <template>
     <TitlePage title="Tarefas" :description="descriptionPage" icon="checklist" />
 
-    <form class="mt-8">
+    <form class="mt-8" @submit.prevent="handleAdd">
         <div class="flex flex-wrap md:flex-nowrap">
             <DefaultInputText v-model="newTask" id="newTask" name="newTask" placeholder="Digite o nome da tarefa..." />
             <DefaultButton
                 text="Adicionar tarefa"
                 icon="add_circle"
                 customClass="md:ml-4 h-[41px] md:h-[51px] !min-w-auto md:max-w-[300px]"
+                :is-disabled="isDisabled"
             />
         </div>
     </form>
@@ -33,7 +34,9 @@ import TitlePage from '@/components/Navigation/TitlePage.vue'
 import { computed, onMounted, ref } from 'vue'
 import type { ITask } from '@/modules/tasks/types'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
-import { apiListTasks } from '../service'
+import { apiListTasks, apiSaveTask } from '../service'
+
+import dayjs from 'dayjs'
 
 const tasks = ref<ITask[]>([])
 
@@ -41,6 +44,7 @@ const toast = useToast()
 const newTask = ref<string>('')
 const donesTasks = ref<number[]>([])
 
+const isDisabled = computed(() => newTask.value.length === 0)
 const getAll = async () => {
     try {
         const result = await apiListTasks()
@@ -58,6 +62,25 @@ onMounted(async () => {
 const isTaskDone = computed(() => {
     return (taskId?: number) => (taskId ? donesTasks.value.includes(taskId) : false)
 })
+
+const handleAdd = async () => {
+    try {
+        const payloadTask = {
+            dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
+            description: newTask.value,
+            stTask: 'A',
+        }
+
+        await apiSaveTask(payloadTask)
+
+        toast.success('Tarefa adicionada com sucesso!')
+
+        newTask.value = ''
+        await getAll()
+    } catch (error: any) {
+        toast.error(error.message)
+    }
+}
 
 const descriptionPage = computed(() => {
     return `${tasks.value.length} tarefas cadastradas`
