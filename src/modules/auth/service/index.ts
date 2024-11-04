@@ -1,9 +1,12 @@
 import { api, getHeaders } from '@/globals/api'
 
-import type { IAuthUser } from '../types'
+import type { IAuthResponse, IAuthUser } from '../types'
 
-export const apiLogin = async (data: IAuthUser) => {
+export const apiLogin = async (payload: IAuthUser) => {
     const headers = getHeaders()
     const url = `/user/login`
-    return api.post(url, data, headers)
+
+    const { data } = await api.post<IAuthResponse>(url, payload, headers)
+
+    return data
 }

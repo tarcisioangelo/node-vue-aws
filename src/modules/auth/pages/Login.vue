@@ -83,9 +83,12 @@ const handleLogin = async () => {
 const handleAuth = async (data: IAuthUser) => {
     try {
         const response = await apiLogin(data)
-        console.log(response)
+
+        ServiceStorage.setToken(response.token)
 
         toast.success('Autenticado com sucesso!')
+
+        router.push('/tasks')
     } catch (error: any) {
         toast.error(error.message)
     }
