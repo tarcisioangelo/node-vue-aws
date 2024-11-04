@@ -6,9 +6,9 @@
             <div class="col-span-12 md:col-span-6">
                 <DefaultInputText
                     required
-                    v-model="newUser.name"
-                    id="name"
-                    name="name"
+                    v-model="newUser.firstName"
+                    id="firstName"
+                    name="firstName"
                     label="Nome"
                     placeholder="Digite seu nome"
                     :v$="v$"
@@ -80,18 +80,23 @@ import { helpers, required, email, sameAs } from '@vuelidate/validators'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
+import type { IUserPayload } from '../types'
+import { apiRegister } from '../service'
+import { useToast } from 'vue-toastification'
 
 const router = useRouter()
 
+const toast = useToast()
+
 const newUser = reactive({
-    name: '',
+    firstName: '',
     lastName: '',
     email: '',
     password: '',
     passwordConfirm: '',
 })
 const rules = computed(() => ({
-    name: {
+    firstName: {
         required: helpers.withMessage('Campo obrigatório', required),
     },
     lastName: {
@@ -115,9 +120,21 @@ const v$ = useVuelidate(rules, newUser)
 const handleSubmit = async () => {
     const isValid = await v$.value.$validate()
     if (isValid) {
-        router.push('/login')
+        await handleRegister(newUser)
     } else {
         console.log('Formulário inválido')
+    }
+}
+
+const handleRegister = async (data: IUserPayload) => {
+    try {
+        await apiRegister(data)
+
+        toast.success('Cadastro realizado com sucesso!')
+
+        router.push('/login')
+    } catch (error: any) {
+        toast.error(error.message)
     }
 }
 </script>

@@ -1,8 +1,5 @@
-export interface IUser {
-    id: number
-    name: string
-    email: string
-}
+import type { IUser } from '@/modules/register/types'
+
 export interface IAuthResponse {
     token: string
     user: IUser

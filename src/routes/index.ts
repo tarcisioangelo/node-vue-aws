@@ -6,7 +6,7 @@ const GuestLayout = () => import('@/layouts/GuestLayout.vue')
 const DefaultLayout = () => import('@/layouts/DefaultLayout.vue')
 // pages
 const LoginPage = () => import('@/modules/auth/pages/Login.vue')
-const RegisterPage = () => import('@/views/Register.vue')
+const RegisterPage = () => import('@/modules/register/pages/Register.vue')
 const TasksPage = () => import('@/modules/tasks/pages/Tasks.vue')
 
 const NotFoundPage = () => import('@/views/NotFound.vue')
