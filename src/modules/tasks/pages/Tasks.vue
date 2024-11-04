@@ -33,27 +33,29 @@ import TitlePage from '@/components/Navigation/TitlePage.vue'
 import { computed, onMounted, ref } from 'vue'
 import type { ITask } from '@/modules/tasks/types'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
+import { apiListTasks } from '../service'
 
-const tasks: ITask[] = [
-    {
-        id: 1,
-        title: 'Tarefa 1',
-    },
-    {
-        id: 2,
-        title: 'Tarefa 2 asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd asdasdsadasd ',
-    },
-]
+const tasks = ref<ITask[]>([])
 
 const toast = useToast()
 const newTask = ref<string>('')
 const donesTasks = ref<number[]>([])
 
-onMounted(() => {
-    toast.success('bem vindo ')
+const getAll = async () => {
+    try {
+        const result = await apiListTasks()
+
+        tasks.value = result.data
+    } catch (error: any) {
+        toast.error(error.message)
+    }
+}
+
+onMounted(async () => {
+    await getAll()
 })
 
 const isTaskDone = computed(() => {
-    return (taskId: number) => donesTasks.value.includes(taskId)
+    return (taskId?: number) => (taskId ? donesTasks.value.includes(taskId) : false)
 })
 </script>

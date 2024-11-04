@@ -1,7 +1,8 @@
 import { api, getHeaders } from '@/globals/api'
+import type { ITask } from '../types'
 
-export const apiLogin = async () => {
+export const apiListTasks = async () => {
     const headers = getHeaders()
-    const url = `/`
-    return api.get(url, headers)
+    const url = `/tasks`
+    return api.get<ITask[]>(url, headers)
 }

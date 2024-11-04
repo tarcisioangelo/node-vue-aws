@@ -31,7 +31,7 @@
             </form>
             
 
-            <label v-else  :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.title }} </label>
+            <label v-else  :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.description }} </label>
         </p>
         <div v-if="!isEdit" class="flex gap-2 order-2 md:order-3 justify-end w-auto">
             <IconButton v-if="!reactiveIsTaskDone" @click="ableEdit" class="bg-input" icon="edit" />
@@ -69,7 +69,7 @@ const inputEditText = ref<string>('')
 
 onMounted(() => {
     if (task) {
-        inputEditText.value = task.title
+        inputEditText.value = task.description
     }
 })
 
