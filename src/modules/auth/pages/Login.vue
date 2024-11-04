@@ -38,8 +38,7 @@
 </template>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-import { computed, onMounted, reactive } from 'vue'
-import { api } from '@/globals/api'
+import { computed, reactive } from 'vue'
 
 // validation
 import useVuelidate from '@vuelidate/core'
@@ -50,10 +49,13 @@ import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import { useToast } from 'vue-toastification'
+import { apiLogin } from '@/modules/auth/service'
+import type { IAuthUser } from '../types'
+import ServiceStorage from '@/globals/storage'
 
 const router = useRouter()
 const toast = useToast()
-const userAuth = reactive({
+const userAuth: IAuthUser = reactive({
     email: '',
     password: '',
 })
@@ -73,15 +75,19 @@ const v$ = useVuelidate(rules, userAuth)
 const handleLogin = async () => {
     const isValid = await v$.value.$validate()
     if (isValid) {
-        toast.success('Autenticado com sucesso')
-        router.push('/tasks')
+        await handleAuth(userAuth)
     } else {
         console.log('Formulário inválido')
     }
 }
+const handleAuth = async (data: IAuthUser) => {
+    try {
+        const response = await apiLogin(data)
+        console.log(response)
 
-onMounted(async () => {
-    const response = await api.get('/')
-    console.log(response)
-})
+        toast.success('Autenticado com sucesso!')
+    } catch (error: any) {
+        toast.error(error.message)
+    }
+}
 </script>
