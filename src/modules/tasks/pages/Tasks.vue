@@ -1,5 +1,5 @@
 <template>
-    <TitlePage />
+    <TitlePage title="Tarefas" :description="descriptionPage" icon="checklist" />
 
     <form class="mt-8">
         <div class="flex flex-wrap md:flex-nowrap">
@@ -57,5 +57,9 @@ onMounted(async () => {
 
 const isTaskDone = computed(() => {
     return (taskId?: number) => (taskId ? donesTasks.value.includes(taskId) : false)
+})
+
+const descriptionPage = computed(() => {
+    return `${tasks.value.length} tarefas cadastradas`
 })
 </script>
