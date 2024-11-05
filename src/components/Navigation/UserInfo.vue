@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center gap-3 p-1 rounded-lg min-w-[10%] cursor-pointer">
+    <div class="flex relative items-center gap-3 p-1 rounded-lg min-w-[10%] cursor-pointer">
         <Avatar text="FM" />
         <div class="hidden md:flex flex-col flex-1 leading-none">
             <p class="text-[16px]">Filipe Martins</p>
