@@ -1,9 +1,9 @@
 <template>
-    <div class="flex relative items-center gap-3 p-1 rounded-lg min-w-[10%] cursor-pointer">
+    <div class="flex relative gap-3 px-4 rounded-lg min-w-[10%] cursor-pointer">
         <Avatar text="FM" />
-        <div class="hidden md:flex flex-col flex-1 leading-none">
-            <p class="text-[16px]">Filipe Martins</p>
-            <label class="text-xs font-light truncate">fillipe.marttins@gmail.com</label>
+        <div class="flex flex-col leading-none">
+            <label class="text-lg truncate">Filipe Martins</label>
+            <label class="font-light truncate">fillipe.mart@gmail.com</label>
         </div>
     </div>
 </template>

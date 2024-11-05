@@ -2,12 +2,9 @@
     <div class="loggedin-content">
         <CustomHeader />
         <main>
-            <div class="flex gap-2 h-[92vh]">
+            <div class="container-content flex-1">
+                <RouterView />
                 <Drawer />
-
-                <div class="container-content flex-1">
-                    <RouterView />
-                </div>
             </div>
         </main>
     </div>

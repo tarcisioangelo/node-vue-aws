@@ -1,10 +1,39 @@
 <template>
-    <div class="h-full absolute md:relative z-50 w-[92%] md:w-[15%] shadow-md shadow-input-line bg-component">
-        <div class="flex flex-col gap-y-8 w-64">
-            <ul>
-                <router-link to="/tasks"></router-link>
-                <router-link to="/user">a</router-link>
-            </ul>
+    <aside v-show="isDrawerOpen" class="scoped-drawer">
+        <div class="h-16">
+            <UserInfo />
         </div>
-    </div>
+        <ul class="scoped-nav flex-1">
+            <router-link class="scoped-item" to="/user">Perfil</router-link>
+            <router-link class="scoped-item" to="/tasks">Tarefas</router-link>
+        </ul>
+
+        <div class="h-16 px-4">
+            <DefaultButton custom-class="!bg-danger" text="Sair" icon="logout" />
+        </div>
+    </aside>
 </template>
+<script setup lang="ts">
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import DefaultButton from '../Buttons/DefaultButton.vue'
+
+import UserInfo from './UserInfo.vue'
+
+const store = useStore()
+
+// Computed para observar o estado do Drawer
+const isDrawerOpen = computed(() => store.getters.isDrawerOpen)
+</script>
+
+<style scoped>
+.scoped-drawer {
+    @apply h-1/3 absolute top-[78px] right-1 md:right-3 py-4 z-50 w-[98%]  sm:w-[50%] xl:w-[20%] drop-shadow-sm shadow-violet-500 bg-component flex flex-col;
+}
+.scoped-nav {
+    @apply flex flex-col;
+}
+.scoped-item {
+    @apply p-2 outline-purple-400 border border-violet-200 rounded-md my-2 text-center mx-4 cursor-pointer;
+}
+</style>
