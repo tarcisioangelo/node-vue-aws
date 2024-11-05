@@ -62,6 +62,7 @@ import type { IPassword } from '../types'
 
 // Services
 import { apiUpdatePassword } from '@/services/auth'
+import { apiGetCsrfToken } from '@/services'
 
 const toast = useToast()
 
@@ -102,7 +103,14 @@ const handleSubmitPassword = async () => {
 
 const handleUpdatePassword = async (data: IPassword) => {
     try {
-        await apiUpdatePassword(data)
+        const result = await apiGetCsrfToken()
+
+        const payloadSave = {
+            ...data,
+            'x-csrf-token': result.data,
+        }
+
+        await apiUpdatePassword(payloadSave)
 
         toast.success('Senha alterada com sucesso!')
     } catch (error: any) {

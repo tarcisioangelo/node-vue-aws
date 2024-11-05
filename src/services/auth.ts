@@ -23,7 +23,7 @@ export const apiLogin = async (payload: IAuthUser) => {
 
 export const apiUpdatePassword = async (payload: IPassword) => {
     const headers = getHeaders()
-    const url = `/password`
+    const url = `/user/update-password`
 
     const { data } = await api.post<IPassword>(url, payload, headers)
 
