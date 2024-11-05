@@ -1,7 +1,7 @@
 <template>
     <TitlePage title="Tarefas" :description="descriptionPage" icon="checklist" />
 
-    <form class="mt-8" @submit.prevent="() => handleAdd">
+    <form class="mt-8" @submit.prevent="() => handleAdd(undefined)">
         <div class="flex flex-wrap md:flex-nowrap">
             <DefaultInputText v-model="newTask" id="newTask" name="newTask" placeholder="Digite o nome da tarefa..." />
             <DefaultButton
@@ -74,7 +74,7 @@ const handleAdd = async (taskParam: ITask | undefined = undefined) => {
             dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
             description: taskParam ? taskParam.description : newTask.value,
             stTask: taskParam ? taskParam.stTask : 'A',
-            'x-csrf-token': result.data
+            'x-csrf-token': result.data,
         }
 
         await apiSaveTask(payloadTask)
