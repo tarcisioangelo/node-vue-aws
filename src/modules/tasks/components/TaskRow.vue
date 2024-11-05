@@ -32,9 +32,6 @@
                 <input type="datetime-local" id="birthdaytime" name="birthdaytime" value="00000"/>
             </form>
 
-
-            
-
             <label v-else  :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.description }} </label>
         </p>
         <div v-if="!isEdit" class="flex gap-2 order-2 md:order-3 justify-end w-auto">
@@ -43,20 +40,25 @@
         </div>
     </div>
 </template>
+
 <script lang="ts" setup>
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useToast } from 'vue-toastification'
+
+// Components
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import IconButton from '@/components/Buttons/IconButton.vue'
-import { useToast } from 'vue-toastification'
 
+// Types
 import type { ITask } from '@/modules/tasks/types'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { apiDeleteTask } from '../service'
+
+// Services
+import { apiDeleteTask } from '@/services'
 
 interface Props {
     task: ITask
     isTaskDone: boolean
-  
 }
 
 const toast = useToast()
@@ -65,7 +67,6 @@ const { task, isTaskDone } = defineProps<Props>()
 const reactiveIsTaskDone = computed(() => isTaskDone)
 
 const model = defineModel()
-
 
 const isEdit = ref<boolean>(false)
 
@@ -107,28 +108,20 @@ const handleUpdate = () => {
 
 // funcao que atualiza a tarefa
 const handleDelete = async() => {
-
     try {
-
         await apiDeleteTask(task.id!)
 
         toast.success('Tarefa deletada com sucesso!')
         
         emit('taskDeleted');
-        
     } catch (error: any) {
         toast.error(error.message)
     }
-   
-
-
 }
 
 watch(reactiveIsTaskDone, (newValue)=> {
     if(newValue){
-
         isEdit.value = false
     }
-
 })
 </script>
