@@ -28,7 +28,7 @@ const success = (response: any) => {
 
 const error = (error: any) => {
     if (error.response.status === 401) {
-        return Promise.reject('Não autorizado!')
+        return Promise.reject(error.response.data)
     }
 
     if (error.response.status === 500) {
