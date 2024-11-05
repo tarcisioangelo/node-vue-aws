@@ -1,8 +1,12 @@
 <template>
     <div class="w-full">
         <form @submit.prevent="handleLogin" autocomplete="off">
-            <p class="text-[36px]">Login:</p>
+            <p class="text-[36px] mb-8">Login:</p>
+
             <p class="text-lg text-center">Faça login e mantenha suas tarefas atualizadas!</p>
+            <p class="text-center text-sm">
+                Não possui conta? <router-link class="link" to="/register">Cadastre-se</router-link>
+            </p>
             <FormContainer>
                 <div class="col-span-12">
                     <DefaultInputText
@@ -31,8 +35,6 @@
             <div class="w-full m-auto text-center pt-4">
                 <DefaultButton text="Entrar na Usertasks" />
             </div>
-
-            <p @click="router.push('/register')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
         </form>
     </div>
 </template>

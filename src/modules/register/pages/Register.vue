@@ -1,8 +1,11 @@
 <template>
     <form @submit.prevent="handleSubmit" autocomplete="off">
-        <p class="text-center text-xl font-semibold">Sistema de gerenciamento de tarefas</p>
-        <p class="text-center text-md font-light pb-4">Crie sua conta e use todas as funcionalidades sem custo.</p>
-        <FormContainer>
+        <p class="text-[36px] mb-8">Cadastro:</p>
+
+        <p class="text-lg text-center">Crie sua conta e use todas as funcionalidades sem custo!</p>
+        <p class="text-center text-sm">já possui conta? <router-link class="link" to="/login">Login</router-link></p>
+
+        <FormContainer class="mt-4">
             <div class="col-span-12 md:col-span-6">
                 <DefaultInputText
                     required
@@ -64,8 +67,6 @@
         <div class="w-64 m-auto text-center pt-4">
             <DefaultButton text="Criar sua conta na Usertasks" />
         </div>
-
-        <p @click="router.push('/login')" class="text-center cursor-pointer pt-4 w-auto">Já tenho conta</p>
     </form>
 </template>
 <script lang="ts" setup>
