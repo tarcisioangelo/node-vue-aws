@@ -35,7 +35,7 @@ import TitlePage from '@/components/Navigation/TitlePage.vue'
 import { computed, onMounted, ref } from 'vue'
 import type { ITask } from '@/modules/tasks/types'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
-import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '../service'
+import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '@/services'
 
 import dayjs from 'dayjs'
 

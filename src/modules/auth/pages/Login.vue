@@ -45,16 +45,20 @@ import { computed, reactive } from 'vue'
 // validation
 import useVuelidate from '@vuelidate/core'
 import { helpers, email, required } from '@vuelidate/validators'
+import { useToast } from 'vue-toastification'
+import { useStore } from 'vuex'
 
-// components
+// Components
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
-import { useToast } from 'vue-toastification'
-import { apiLogin } from '@/modules/auth/service'
+
+// Types
 import type { IAuthUser } from '../types'
+
+// Services
 import ServiceStorage from '@/globals/storage'
-import { useStore } from 'vuex'
+import { apiLogin } from '@/services'
 
 const store = useStore()
 const router = useRouter()

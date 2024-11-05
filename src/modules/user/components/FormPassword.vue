@@ -46,18 +46,22 @@
 </template>
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
+import { useToast } from 'vue-toastification'
 
-// validation
+// Validation
 import useVuelidate from '@vuelidate/core'
 import { helpers, required, sameAs } from '@vuelidate/validators'
 
-// components
+// Components
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
+
+// Types
 import type { IPassword } from '../types'
-import { apiUpdatePassword } from '../service'
-import { useToast } from 'vue-toastification'
+
+// Services
+import { apiUpdatePassword } from '@/services/auth'
 
 const toast = useToast()
 
@@ -66,6 +70,7 @@ const refPassword = reactive({
     newPassword: '',
     newPasswordConfirm: '',
 })
+
 const rules = computed(() => ({
     password: {
         required: helpers.withMessage('Campo obrigatório', required),
@@ -87,6 +92,7 @@ const v$ = useVuelidate(rules, refPassword)
 
 const handleSubmitPassword = async () => {
     const isValid = await v$.value.$validate()
+
     if (isValid) {
         await handleUpdatePassword(refPassword)
     } else {
@@ -103,4 +109,5 @@ const handleUpdatePassword = async (data: IPassword) => {
         toast.error(error.message)
     }
 }
+
 </script>
