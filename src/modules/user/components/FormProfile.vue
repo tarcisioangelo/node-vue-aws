@@ -56,10 +56,10 @@ import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import type { IUserPayload } from '@/modules/register/types'
-import { apiRegister } from '@/modules/register/service'
 import { useToast } from 'vue-toastification'
 import { useStore } from 'vuex'
-import { apiGetCsrfToken } from '@/modules/tasks/service'
+
+import { apiRegister, apiGetCsrfToken } from '@/services'
 
 const store = useStore()
 

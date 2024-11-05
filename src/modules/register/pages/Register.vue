@@ -82,8 +82,10 @@ import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import type { IUserPayload } from '../types'
-import { apiRegister } from '../service'
 import { useToast } from 'vue-toastification'
+
+// Services
+import { apiRegister } from '@/services'
 
 const router = useRouter()
 

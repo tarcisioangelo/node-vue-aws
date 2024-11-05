@@ -1,5 +1,5 @@
 import { api, getHeaders } from '@/globals/api'
-import type { ITask } from '../types'
+import type { ITask } from '@/modules/tasks/types'
 
 export const apiListTasks = async () => {
     const headers = getHeaders()
