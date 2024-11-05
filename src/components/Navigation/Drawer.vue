@@ -4,8 +4,8 @@
             <UserInfo />
         </div>
         <ul class="scoped-nav flex-1">
-            <router-link class="scoped-item" to="/perfil">Perfil</router-link>
-            <router-link class="scoped-item" to="/tasks">Tarefas</router-link>
+            <label class="scoped-item" @click="goTo('/perfil')">Perfil</label>
+            <label class="scoped-item" @click="goTo('/tasks')">Tarefas</label>
         </ul>
 
         <div class="h-16 px-4">
@@ -30,8 +30,14 @@ const isDrawerOpen = computed(() => store.getters['drawer/isDrawerOpen'])
 
 const logout = () => {
     ServiceStorage.removeToken()
-    store.commit('closeDrawer')
+    store.commit('drawer/closeDrawer')
     router.push('/login')
+}
+
+const goTo = (path: string) => {
+    store.commit('drawer/closeDrawer')
+
+    router.push(path)
 }
 </script>
 
