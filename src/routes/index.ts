@@ -59,6 +59,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    console.log(from)
     const isAuthenticated = ServiceStorage.getToken() !== null
 
     if (to.meta.requiresAuth && !isAuthenticated) {
