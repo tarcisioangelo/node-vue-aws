@@ -1,8 +1,0 @@
-RewriteEngine On
-RewriteBase /
-RewriteCond %{ENV:HTTPS} !on [NC]
-RewriteRule ^(.*)$ http://frontend-hide.cf.s3-website-us-east-1.amazonaws.com/$1 [R,L]
-RewriteRule ^(.*)$ https://tarcisioangelo.com/$1 [R,L]
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.html [L]
