@@ -1,7 +1,8 @@
 import axios from 'axios'
 import ServiceStorage from './storage'
 
-let baseUrl = import.meta.env.VITE_API_URL
+// let baseUrl = import.meta.env.VITE_API_URL
+let baseUrl = 'https://api.tarcisioangelo.com/api/'
 
 export const getHeaders = (params = {}) => {
     const token = ServiceStorage.getToken()
