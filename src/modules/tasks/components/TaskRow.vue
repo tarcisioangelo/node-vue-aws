@@ -27,8 +27,12 @@
                         
                         customClass="bg-success hover:bg-success md:ml-4 h-[41px] md:h-[51px] !min-w-auto text-xs md:max-w-[200px]"
                     />
+                
                 </div>
+                <input type="datetime-local" id="birthdaytime" name="birthdaytime" value="00000"/>
             </form>
+
+
             
 
             <label v-else  :class="{ 'opacity-55 line-through': isTaskDone }">{{ task.description }} </label>
