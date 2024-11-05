@@ -21,3 +21,9 @@ export const apiDeleteTask = async (idTask: number) => {
     const url = `/tasks/${idTask}`
     return api.delete(url, headers)
 }
+
+export const apiGetCsrfToken = async () => {
+    const headers = getHeaders()
+    const url = `/user/csrf-token`
+    return api.get(url, headers)
+}

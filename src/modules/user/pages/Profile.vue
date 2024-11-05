@@ -65,6 +65,7 @@ import { useToast } from 'vue-toastification'
 import { useStore } from 'vuex'
 import TitlePage from '@/components/Navigation/TitlePage.vue'
 import FormPassword from '../components/FormPassword.vue'
+import { apiGetCsrfToken } from '@/modules/tasks/service'
 
 const store = useStore()
 
@@ -115,7 +116,14 @@ onMounted(() => {
 
 const handleRegister = async (data: IUserPayload) => {
     try {
-        await apiRegister(data)
+        const result = await apiGetCsrfToken()
+
+        const payloadSave = {
+            ...data,
+            'x-csrf-token': result.data
+        }
+
+        await apiRegister(payloadSave)
 
         toast.success('Cadastro realizado com sucesso!')
 

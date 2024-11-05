@@ -21,7 +21,6 @@
             :task="task"
             :isTaskDone="isTaskDone(task.id)"
             @task-deleted="getAll"
-            @task-updated="handleAdd"
         />
     </div>
 
@@ -36,7 +35,7 @@ import TitlePage from '@/components/Navigation/TitlePage.vue'
 import { computed, onMounted, ref } from 'vue'
 import type { ITask } from '@/modules/tasks/types'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
-import { apiListTasks, apiSaveTask } from '../service'
+import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '../service'
 
 import dayjs from 'dayjs'
 
@@ -47,6 +46,7 @@ const newTask = ref<string>('')
 const donesTasks = ref<number[]>([])
 
 const isDisabled = computed(() => newTask.value.length === 0)
+
 const getAll = async () => {
     try {
         const result = await apiListTasks()
@@ -67,13 +67,14 @@ const isTaskDone = computed(() => {
 
 const handleAdd = async (taskParam: ITask | undefined = undefined) => {
     try {
-        console.log(taskParam)
+        const result = await apiGetCsrfToken()
 
         const payloadTask: ITask = {
             id: taskParam ? taskParam.id : undefined,
-            dateTask: taskParam ? taskParam.dateTask : dayjs().format('YYYY-MM-DD HH:mm'),
+            dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
             description: taskParam ? taskParam.description : newTask.value,
             stTask: taskParam ? taskParam.stTask : 'A',
+            'x-csrf-token': result.data
         }
 
         await apiSaveTask(payloadTask)
@@ -83,6 +84,7 @@ const handleAdd = async (taskParam: ITask | undefined = undefined) => {
         newTask.value = ''
         await getAll()
     } catch (error: any) {
+        console.log(error)
         toast.error(error.message)
     }
 }

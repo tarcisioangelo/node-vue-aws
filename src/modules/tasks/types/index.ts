@@ -3,4 +3,5 @@ export interface ITask {
     description: string
     dateTask?: string
     stTask?: 'A' | 'B'
+    'x-csrf-token'?: string
 }
