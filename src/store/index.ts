@@ -1,38 +1,12 @@
 import { createStore } from 'vuex'
+import drawerModule from './drawer'
+import userModule from './user'
 
-interface DrawerState {
-    isDrawerOpen: boolean
-}
-
-const state: DrawerState = {
-    isDrawerOpen: false,
-}
-
-export default createStore({
-    state,
-    mutations: {
-        toggleDrawer(state: DrawerState) {
-            state.isDrawerOpen = !state.isDrawerOpen
-        },
-        openDrawer(state: DrawerState) {
-            state.isDrawerOpen = true
-        },
-        closeDrawer(state: DrawerState) {
-            state.isDrawerOpen = false
-        },
-    },
-    actions: {
-        toggleDrawer({ commit }) {
-            commit('toggleDrawer')
-        },
-        openDrawer({ commit }) {
-            commit('openDrawer')
-        },
-        closeDrawer({ commit }) {
-            commit('closeDrawer')
-        },
-    },
-    getters: {
-        isDrawerOpen: (state: DrawerState) => state.isDrawerOpen,
+const store = createStore({
+    modules: {
+        drawer: drawerModule,
+        user: userModule,
     },
 })
+
+export default store

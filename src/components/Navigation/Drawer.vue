@@ -4,7 +4,7 @@
             <UserInfo />
         </div>
         <ul class="scoped-nav flex-1">
-            <router-link class="scoped-item" to="/user">Perfil</router-link>
+            <router-link class="scoped-item" to="/perfil">Perfil</router-link>
             <router-link class="scoped-item" to="/tasks">Tarefas</router-link>
         </ul>
 
@@ -26,7 +26,7 @@ const store = useStore()
 const router = useRouter()
 
 // Computed para observar o estado do Drawer
-const isDrawerOpen = computed(() => store.getters.isDrawerOpen)
+const isDrawerOpen = computed(() => store.getters['drawer/isDrawerOpen'])
 
 const logout = () => {
     ServiceStorage.removeToken()

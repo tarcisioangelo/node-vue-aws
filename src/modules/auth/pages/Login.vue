@@ -52,7 +52,9 @@ import { useToast } from 'vue-toastification'
 import { apiLogin } from '@/modules/auth/service'
 import type { IAuthUser } from '../types'
 import ServiceStorage from '@/globals/storage'
+import { useStore } from 'vuex'
 
+const store = useStore()
 const router = useRouter()
 const toast = useToast()
 const userAuth: IAuthUser = reactive({
@@ -86,6 +88,7 @@ const handleAuth = async (data: IAuthUser) => {
 
         ServiceStorage.setToken(response.token)
 
+        store.dispatch('user/login', response.user)
         toast.success('Autenticado com sucesso!')
 
         router.push('/tasks')

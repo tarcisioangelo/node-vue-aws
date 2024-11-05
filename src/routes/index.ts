@@ -9,6 +9,7 @@ const DefaultLayout = () => import('@/layouts/DefaultLayout.vue')
 const LoginPage = () => import('@/modules/auth/pages/Login.vue')
 const RegisterPage = () => import('@/modules/register/pages/Register.vue')
 const TasksPage = () => import('@/modules/tasks/pages/Tasks.vue')
+const ProfilePage = () => import('@/modules/user/pages/Profile.vue')
 
 const NotFoundPage = () => import('@/views/NotFound.vue')
 
@@ -27,6 +28,12 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'tasks',
                 name: 'Tasks',
                 component: TasksPage,
+                meta: { requiresAuth: true },
+            },
+            {
+                path: 'perfil',
+                name: 'Profile',
+                component: ProfilePage,
                 meta: { requiresAuth: true },
             },
         ],

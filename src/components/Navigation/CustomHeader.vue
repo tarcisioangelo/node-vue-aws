@@ -17,9 +17,9 @@ import IconButton from '../Buttons/IconButton.vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
-const isDrawerOpen = computed(() => store.getters.isDrawerOpen)
+const isDrawerOpen = computed(() => store.getters['drawer/isDrawerOpen'])
 const toggleDrawer = () => {
-    store.dispatch('toggleDrawer')
+    store.dispatch('drawer/toggleDrawer')
 }
 </script>
 
