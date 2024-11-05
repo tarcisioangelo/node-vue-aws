@@ -2,9 +2,9 @@
     <TitlePage title="Perfil" icon="person" />
 
     <form @submit.prevent="handleSubmit" autocomplete="off">
-        <p class="text-xl font-semibold">Dados do usuário</p>
+        <p class="text-xl font-semibold mt-4">Dados do usuário</p>
 
-        <FormContainer>
+        <FormContainer custom-class="mt-4">
             <div class="col-span-12 md:col-span-6">
                 <DefaultInputText
                     required
@@ -44,11 +44,11 @@
         </div>
     </form>
 
-    {{ user }}
+    <FormPassword />
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 // validation
@@ -63,6 +63,8 @@ import type { IUserPayload } from '@/modules/register/types'
 import { apiRegister } from '@/modules/register/service'
 import { useToast } from 'vue-toastification'
 import { useStore } from 'vuex'
+import TitlePage from '@/components/Navigation/TitlePage.vue'
+import FormPassword from '../components/FormPassword.vue'
 
 const store = useStore()
 
@@ -100,6 +102,16 @@ const handleSubmit = async () => {
 }
 
 const user = computed(() => store.getters['user/user'])
+
+onMounted(() => {
+    if (user) {
+        userRef.email = user.value.email
+        userRef.firstName = user.value.firstName
+        userRef.lastName = user.value.lastName
+    } else {
+        router.push('/login')
+    }
+})
 
 const handleRegister = async (data: IUserPayload) => {
     try {

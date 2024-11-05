@@ -1,6 +1,5 @@
-export interface ITask {
-    id?: number
-    description: string
-    dateTask?: string
-    stTask?: 'A' | 'B'
+export interface IPassword {
+    password: string
+    newPassword: string
+    newPasswordConfirm: string
 }
