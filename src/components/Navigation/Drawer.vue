@@ -9,7 +9,7 @@
         </ul>
 
         <div class="h-16 px-4">
-            <DefaultButton custom-class="!bg-danger" text="Sair" icon="logout" />
+            <DefaultButton custom-class="!bg-danger" text="Sair" icon="logout" @click="logout" />
         </div>
     </aside>
 </template>
@@ -17,13 +17,22 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import DefaultButton from '../Buttons/DefaultButton.vue'
+import ServiceStorage from '@/globals/storage'
 
 import UserInfo from './UserInfo.vue'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
+const router = useRouter()
 
 // Computed para observar o estado do Drawer
 const isDrawerOpen = computed(() => store.getters.isDrawerOpen)
+
+const logout = () => {
+    ServiceStorage.removeToken()
+    store.commit('closeDrawer')
+    router.push('/login')
+}
 </script>
 
 <style scoped>

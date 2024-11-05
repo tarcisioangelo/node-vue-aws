@@ -1,3 +1,4 @@
+import ServiceStorage from '@/globals/storage'
 import { createWebHistory, createRouter } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 
@@ -26,6 +27,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'tasks',
                 name: 'Tasks',
                 component: TasksPage,
+                meta: { requiresAuth: true },
             },
         ],
     },
@@ -56,4 +58,13 @@ const router = createRouter({
     routes,
 })
 
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = ServiceStorage.getToken() !== null
+
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        next('/login')
+    } else {
+        next()
+    }
+})
 export default router
