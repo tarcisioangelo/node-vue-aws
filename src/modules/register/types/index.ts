@@ -6,6 +6,6 @@ export interface IUser {
 }
 
 export interface IUserPayload extends IUser {
-    password: string
+    password?: string
     passwordConfirm?: string
 }

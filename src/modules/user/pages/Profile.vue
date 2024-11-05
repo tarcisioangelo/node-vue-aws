@@ -1,67 +1,115 @@
 <template>
     <TitlePage title="Perfil" icon="person" />
+
+    <form @submit.prevent="handleSubmit" autocomplete="off">
+        <p class="text-xl font-semibold">Dados do usuário</p>
+
+        <FormContainer>
+            <div class="col-span-12 md:col-span-6">
+                <DefaultInputText
+                    required
+                    v-model="userRef.firstName"
+                    id="firstName"
+                    name="firstName"
+                    label="Nome"
+                    placeholder="Digite seu nome"
+                    :v$="v$"
+                />
+            </div>
+            <div class="col-span-12 md:col-span-6">
+                <DefaultInputText
+                    required
+                    v-model="userRef.lastName"
+                    id="lastName"
+                    name="lastName"
+                    label="Sobrenome"
+                    placeholder="Digite seu sobrenome"
+                    :v$="v$"
+                />
+            </div>
+            <div class="col-span-12">
+                <DefaultInputText
+                    required
+                    v-model="userRef.email"
+                    id="email"
+                    name="email"
+                    label="Email"
+                    placeholder="teste@gmail.com"
+                    :v$="v$"
+                />
+            </div>
+        </FormContainer>
+        <div class="w-64 m-auto pt-4">
+            <DefaultButton text="Atualizar dados" />
+        </div>
+    </form>
+
+    {{ user }}
 </template>
 
 <script lang="ts" setup>
-import { useToast } from 'vue-toastification'
+import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+
+// validation
+import useVuelidate from '@vuelidate/core'
+import { helpers, required, email } from '@vuelidate/validators'
+
+// components
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
+import FormContainer from '@/components/Form/FormContainer.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
-import TitlePage from '@/components/Navigation/TitlePage.vue'
-import { computed, onMounted, ref } from 'vue'
-import type { ITask } from '@/modules/tasks/types'
-import TaskRow from '@/modules/tasks/components/TaskRow.vue'
-import { apiListTasks, apiSaveTask } from '../service'
+import type { IUserPayload } from '@/modules/register/types'
+import { apiRegister } from '@/modules/register/service'
+import { useToast } from 'vue-toastification'
+import { useStore } from 'vuex'
 
-import dayjs from 'dayjs'
+const store = useStore()
 
-const tasks = ref<ITask[]>([])
+const router = useRouter()
 
 const toast = useToast()
-const newTask = ref<string>('')
-const donesTasks = ref<number[]>([])
 
-const isDisabled = computed(() => newTask.value.length === 0)
-const getAll = async () => {
+const userRef = reactive({
+    firstName: '',
+    lastName: '',
+    email: '',
+})
+const rules = computed(() => ({
+    firstName: {
+        required: helpers.withMessage('Campo obrigatório', required),
+    },
+    lastName: {
+        required: helpers.withMessage('Campo obrigatório', required),
+    },
+    email: {
+        required: helpers.withMessage('Campo obrigatório', required),
+        email: helpers.withMessage('Email inválido', email),
+    },
+}))
+
+const v$ = useVuelidate(rules, userRef)
+
+const handleSubmit = async () => {
+    const isValid = await v$.value.$validate()
+    if (isValid) {
+        await handleRegister(userRef)
+    } else {
+        console.log('Formulário inválido')
+    }
+}
+
+const user = computed(() => store.getters['user/user'])
+
+const handleRegister = async (data: IUserPayload) => {
     try {
-        const result = await apiListTasks()
+        await apiRegister(data)
 
-        tasks.value = result.data
+        toast.success('Cadastro realizado com sucesso!')
+
+        router.push('/login')
     } catch (error: any) {
         toast.error(error.message)
     }
 }
-
-onMounted(async () => {
-    await getAll()
-})
-
-const isTaskDone = computed(() => {
-    return (taskId?: number) => (taskId ? donesTasks.value.includes(taskId) : false)
-})
-
-const handleAdd = async (taskParam: ITask | undefined = undefined) => {
-    try {
-        console.log(taskParam)
-
-        const payloadTask: ITask = {
-            id: taskParam ? taskParam.id : undefined,
-            dateTask: taskParam ? taskParam.dateTask : dayjs().format('YYYY-MM-DD HH:mm'),
-            description: taskParam ? taskParam.description : newTask.value,
-            stTask: taskParam ? taskParam.stTask : 'A',
-        }
-
-        await apiSaveTask(payloadTask)
-
-        toast.success('Tarefa adicionada com sucesso!')
-
-        newTask.value = ''
-        await getAll()
-    } catch (error: any) {
-        toast.error(error.message)
-    }
-}
-
-const descriptionPage = computed(() => {
-    return `${tasks.value.length} tarefas cadastradas`
-})
 </script>
