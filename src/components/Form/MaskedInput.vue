@@ -7,6 +7,7 @@
     <input
         v-bind="$attrs"
         ref="input"
+        v-mask="mask"
         v-model="model"
         :class="['input_default', customClass]"
         :type="type"
@@ -32,9 +33,10 @@ interface Props {
     placeholder?: string
     v$?: Record<string, Validation>
     customClass?: string
+    mask: string
 }
 
-const { id, name, required, type = 'text', label, placeholder, v$, customClass } = defineProps<Props>()
+const { id, name, required, type = 'text', label, placeholder, v$, customClass, mask } = defineProps<Props>()
 
 const input = ref<HTMLInputElement | null>(null)
 

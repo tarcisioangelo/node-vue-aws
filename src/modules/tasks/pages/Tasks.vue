@@ -14,8 +14,9 @@
                     />
                 </div>
                 <div class="flex-1/2">
-                    <DefaultInputText
+                    <MaskedInput
                         v-model="newTask.date"
+                        mask="##/##/####"
                         type="datetime"
                         custom-class="!mb-0"
                         id="dateTask"
@@ -24,8 +25,9 @@
                     />
                 </div>
                 <div class="flex-1/2">
-                    <DefaultInputText
+                    <MaskedInput
                         v-model="newTask.time"
+                        mask="##:##"
                         custom-class="!mb-0 "
                         id="timeTask"
                         name="newTask"
@@ -87,6 +89,8 @@ import { useToast } from 'vue-toastification'
 // Components
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
+import MaskedInput from '@/components/Form/MaskedInput.vue'
+
 import TitlePage from '@/components/Navigation/TitlePage.vue'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
 
