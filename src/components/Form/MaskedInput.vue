@@ -1,25 +1,3 @@
-<template>
-    <label class="text-white/75 font-semibold text-sm" :for="name">
-        {{ label }}
-
-        <span v-show="required" class="text-red-900">*</span>
-    </label>
-    <input
-        v-bind="$attrs"
-        ref="input"
-        v-mask="mask"
-        v-model="model"
-        :class="['input_default', customClass]"
-        :type="type"
-        :id="id"
-        :name="name"
-        :placeholder="placeholder"
-    />
-
-    <div v-show="errorMessage" class="text-red-500 text-xs">
-        {{ errorMessage }}
-    </div>
-</template>
 <script lang="ts" setup>
 import type { Validation } from '@vuelidate/core'
 import { computed, ref } from 'vue'
@@ -51,6 +29,29 @@ const errorMessage = computed(() => {
     }
 })
 </script>
+
+<template>
+    <label class="text-white/75 font-semibold text-sm" :for="name">
+        {{ label }}
+
+        <span v-show="required" class="text-red-900">*</span>
+    </label>
+    <input
+        v-bind="$attrs"
+        ref="input"
+        v-mask="mask"
+        v-model="model"
+        :class="['input_default', customClass]"
+        :type="type"
+        :id="id"
+        :name="name"
+        :placeholder="placeholder"
+    />
+
+    <div v-show="errorMessage" class="text-red-500 text-xs">
+        {{ errorMessage }}
+    </div>
+</template>
 
 <style scoped>
 .input_default {

@@ -1,13 +1,13 @@
 import { api, getHeaders } from '@/globals/api'
-import type { ITask } from '@/modules/tasks/types'
+import type { ITask, ITaskList, ITaskSave } from '@/modules/tasks/types'
 
 export const apiListTasks = async () => {
     const headers = getHeaders()
     const url = `/tasks`
-    return api.get<ITask[]>(url, headers)
+    return api.get<ITaskList[]>(url, headers)
 }
 
-export const apiSaveTask = async (payload: ITask) => {
+export const apiSaveTask = async (payload: ITaskSave) => {
     const headers = getHeaders()
     const url = `/tasks`
 

@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import CustomHeader from '@/components/Navigation/CustomHeader.vue'
+import Drawer from '@/components/Navigation/Drawer.vue'
+</script>
+
 <template>
     <div class="loggedin-content">
         <CustomHeader />
@@ -9,11 +14,6 @@
         </main>
     </div>
 </template>
-
-<script lang="ts" setup>
-import CustomHeader from '@/components/Navigation/CustomHeader.vue'
-import Drawer from '@/components/Navigation/Drawer.vue'
-</script>
 
 <style scoped>
 .loggedin-content {

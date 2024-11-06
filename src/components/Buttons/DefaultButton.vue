@@ -1,9 +1,3 @@
-<template>
-    <button @click="handleClick" :class="buttonClasses" :disabled="isDisabled">
-        <span v-if="icon" class="material-icons-outlined">{{ icon }} </span> {{ text }}
-    </button>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 
@@ -29,6 +23,12 @@ const handleClick = () => {
     }
 }
 </script>
+
+<template>
+    <button @click="handleClick" :class="buttonClasses" :disabled="isDisabled">
+        <span v-if="icon" class="material-icons-outlined">{{ icon }} </span> {{ text }}
+    </button>
+</template>
 
 <style scoped>
 .btn-default {

@@ -1,14 +1,3 @@
-<template>
-    <TitlePage title="Perfil" icon="person" />
-
-    <form @submit.prevent="handleSubmit" autocomplete="off">
-        <p class="text-xl font-semibold mt-4">{{ userRef.firstName }} {{ userRef.lastName }}</p>
-        <p class="text-xl font-semibold mt-4">{{ userRef.email }}</p>
-    </form>
-
-    <FormPassword />
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -93,3 +82,14 @@ const handleRegister = async (data: IUserPayload) => {
     }
 }
 </script>
+
+<template>
+    <TitlePage title="Perfil" icon="person" />
+
+    <form @submit.prevent="handleSubmit" autocomplete="off">
+        <p class="text-xl font-semibold mt-4">{{ userRef.firstName }} {{ userRef.lastName }}</p>
+        <p class="text-xl font-semibold mt-4">{{ userRef.email }}</p>
+    </form>
+
+    <FormPassword />
+</template>

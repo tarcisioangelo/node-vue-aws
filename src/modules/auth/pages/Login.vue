@@ -1,43 +1,3 @@
-<template>
-    <div class="w-full">
-        <form @submit.prevent="handleLogin" autocomplete="off">
-            <p class="text-[36px] mb-8">Login:</p>
-
-            <p class="text-lg text-center">Faça login e mantenha suas tarefas atualizadas!</p>
-            <p class="text-center text-sm">
-                Não possui conta? <router-link class="link" to="/register">Cadastre-se</router-link>
-            </p>
-            <FormContainer>
-                <div class="col-span-12">
-                    <DefaultInputText
-                        required
-                        v-model="userAuth.email"
-                        id="email"
-                        name="email"
-                        label="Email"
-                        placeholder="teste@gmail.com"
-                        :v$="v$"
-                    />
-                </div>
-                <div class="col-span-12">
-                    <DefaultInputText
-                        required
-                        v-model="userAuth.password"
-                        id="password"
-                        name="password"
-                        type="password"
-                        label="Senha"
-                        placeholder="Digite sua senha"
-                        :v$="v$"
-                    />
-                </div>
-            </FormContainer>
-            <div class="w-full m-auto text-center pt-4">
-                <DefaultButton text="Entrar na Usertasks" />
-            </div>
-        </form>
-    </div>
-</template>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { computed, reactive } from 'vue'
@@ -82,6 +42,7 @@ const v$ = useVuelidate(rules, userAuth)
 
 const handleLogin = async () => {
     const isValid = await v$.value.$validate()
+
     if (isValid) {
         await handleAuth(userAuth)
     } else {
@@ -103,3 +64,44 @@ const handleAuth = async (data: IAuthUser) => {
     }
 }
 </script>
+
+<template>
+    <div class="w-full">
+        <form @submit.prevent="handleLogin" autocomplete="off">
+            <p class="text-[36px] mb-8">Login:</p>
+
+            <p class="text-lg text-center">Faça login e mantenha suas tarefas atualizadas!</p>
+            <p class="text-center text-sm">
+                Não possui conta? <router-link class="link" to="/register">Cadastre-se</router-link>
+            </p>
+            <FormContainer>
+                <div class="col-span-12">
+                    <DefaultInputText
+                        required
+                        v-model="userAuth.email"
+                        id="email"
+                        name="email"
+                        label="Email"
+                        placeholder="teste@gmail.com"
+                        :v$="v$"
+                    />
+                </div>
+                <div class="col-span-12">
+                    <DefaultInputText
+                        required
+                        v-model="userAuth.password"
+                        id="password"
+                        name="password"
+                        type="password"
+                        label="Senha"
+                        placeholder="Digite sua senha"
+                        :v$="v$"
+                    />
+                </div>
+            </FormContainer>
+            <div class="w-full m-auto text-center pt-4">
+                <DefaultButton text="Entrar na Usertasks" />
+            </div>
+        </form>
+    </div>
+</template>

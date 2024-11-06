@@ -1,18 +1,3 @@
-<template>
-    <aside v-show="isDrawerOpen" class="scoped-drawer">
-        <div class="h-16">
-            <UserInfo />
-        </div>
-        <ul class="scoped-nav flex-1">
-            <label class="scoped-item" @click="goTo('/perfil')">Perfil</label>
-            <label class="scoped-item" @click="goTo('/tasks')">Tarefas</label>
-        </ul>
-
-        <div class="h-16 px-4">
-            <DefaultButton custom-class="!bg-danger" text="Sair" icon="logout" @click="logout" />
-        </div>
-    </aside>
-</template>
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import { computed } from 'vue'
@@ -40,6 +25,22 @@ const goTo = (path: string) => {
     router.push(path)
 }
 </script>
+
+<template>
+    <aside v-show="isDrawerOpen" class="scoped-drawer">
+        <div class="h-16">
+            <UserInfo />
+        </div>
+        <ul class="scoped-nav flex-1">
+            <label class="scoped-item" @click="goTo('/perfil')">Perfil</label>
+            <label class="scoped-item" @click="goTo('/tasks')">Tarefas</label>
+        </ul>
+
+        <div class="h-16 px-4">
+            <DefaultButton custom-class="!bg-danger" text="Sair" icon="logout" @click="logout" />
+        </div>
+    </aside>
+</template>
 
 <style scoped>
 .scoped-drawer {

@@ -1,3 +1,129 @@
+<script lang="ts" setup>
+import { computed, onMounted, reactive, ref } from 'vue'
+import { useToast } from 'vue-toastification'
+
+// Components
+import DefaultButton from '@/components/Buttons/DefaultButton.vue'
+import DefaultInputText from '@/components/Form/DefaultInputText.vue'
+import MaskedInput from '@/components/Form/MaskedInput.vue'
+
+import TitlePage from '@/components/Navigation/TitlePage.vue'
+import TaskRow from '@/modules/tasks/components/TaskRow.vue'
+
+// Types
+import type { ITaskEdit, ITaskList, ITaskSave, ITaskStatus } from '@/modules/tasks/types'
+
+// Services
+import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '@/services'
+
+import dayjs from 'dayjs'
+
+const tasks = ref<ITaskList[]>([])
+
+const toast = useToast()
+
+const newTask = reactive<ITaskEdit>({
+    description: '',
+    time: '',
+    date: '',
+    stTask: 'A',
+})
+
+const isLoading = ref<boolean>(false)
+
+const isDisabled = computed(() => newTask.description.length === 0)
+
+const getAll = async () => {
+    try {
+        isLoading.value = true
+        const result = await apiListTasks()
+
+        tasks.value = result.data
+    } catch (error: any) {
+        toast.error(error.message)
+    } finally {
+        isLoading.value = false
+    }
+}
+
+onMounted(async () => {
+    await getAll()
+})
+
+const donesTask = computed(() => {
+    return tasks.value.filter((task) => task.stTask === 'B')
+})
+
+const toStartTask = computed(() => {
+    return tasks.value.filter((task) => task.stTask === 'A')
+})
+
+const handleEdit = (data: ITaskList) => {
+    newTask.id = data.id
+    newTask.description = data.description
+    newTask.date = data.date
+    newTask.time = data.time
+}
+
+const clearNewTask = () => {
+    newTask.id = undefined
+    newTask.description = ''
+    newTask.date = ''
+    newTask.time = ''
+    newTask.stTask = 'A'
+}
+
+const handleAdd = async () => {
+    try {
+        isLoading.value = true
+
+        await saveHandler(newTask)
+
+        toast.success('Tarefa salva com sucesso!')
+
+        await getAll()
+    } catch (error: any) {
+        toast.error(error.message)
+    } finally {
+        isLoading.value = false
+    }
+}
+
+const handleUpdate = async (data: ITaskList) => {
+    let stFaill: ITaskStatus = data.stTask === 'A' ? 'B' : 'A'
+
+    const up = tasks.value.find((task) => task.id === data.id)
+
+    try {
+        if (up) up.stTask = data.stTask
+
+        await saveHandler(data)
+    } catch (error: any) {
+        toast.error(error.message)
+
+        if (up) up.stTask = stFaill
+    }
+}
+
+const saveHandler = async (data: ITaskEdit) => {
+    const result = await apiGetCsrfToken()
+
+    const payloadTask: ITaskSave = {
+        ...data,
+        dateTask: dayjs(`${data.date} ${data.time}`, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm'),
+        'x-csrf-token': result.data,
+    }
+
+    await apiSaveTask(payloadTask)
+
+    clearNewTask()
+}
+
+const descriptionPage = computed(() => {
+    return `${tasks.value.length} tarefas cadastradas`
+})
+</script>
+
 <template>
     <TitlePage title="Tarefas" :description="descriptionPage" icon="checklist" />
 
@@ -86,140 +212,6 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-import { useToast } from 'vue-toastification'
-
-// Components
-import DefaultButton from '@/components/Buttons/DefaultButton.vue'
-import DefaultInputText from '@/components/Form/DefaultInputText.vue'
-import MaskedInput from '@/components/Form/MaskedInput.vue'
-
-import TitlePage from '@/components/Navigation/TitlePage.vue'
-import TaskRow from '@/modules/tasks/components/TaskRow.vue'
-
-// Types
-import type { ITask, ITaskEdit, ITaskStatus } from '@/modules/tasks/types'
-
-// Services
-import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '@/services'
-
-import dayjs from 'dayjs'
-
-const tasks = ref<ITask[]>([])
-
-const toast = useToast()
-
-const newTask = reactive<ITaskEdit>({
-    description: '',
-    time: '',
-    date: '',
-})
-
-const isLoading = ref<boolean>(false)
-
-const isDisabled = computed(() => newTask.description.length === 0)
-
-const getAll = async () => {
-    try {
-        isLoading.value = true
-        const result = await apiListTasks()
-
-        tasks.value = result.data
-    } catch (error: any) {
-        toast.error(error.message)
-    } finally {
-        isLoading.value = false
-    }
-}
-
-onMounted(async () => {
-    await getAll()
-})
-
-const donesTask = computed(() => {
-    return tasks.value.filter((task) => task.stTask === 'B')
-})
-
-const toStartTask = computed(() => {
-    return tasks.value.filter((task) => task.stTask === 'A')
-})
-
-const handleAdd = async () => {
-    try {
-        isLoading.value = true
-
-        const payloadTask: ITask = {
-            id: newTask?.id,
-            dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
-            description: newTask.description,
-            stTask: 'A',
-        }
-
-        await saveHandler(payloadTask)
-
-        toast.success('Tarefa salva com sucesso!')
-
-        await getAll()
-    } catch (error: any) {
-        console.log(error)
-        toast.error(error.message)
-    } finally {
-        isLoading.value = false
-    }
-}
-
-const handleEdit = (data: ITask) => {
-    newTask.id = data.id
-    newTask.description = data.description
-    newTask.date = dayjs(data.dateTask).format('DD/MM/YYYY')
-    newTask.time = dayjs(data.dateTask).format('HH:mm')
-}
-
-const clearNewTask = () => {
-    newTask.id = undefined
-    newTask.description = ''
-    newTask.date = ''
-    newTask.time = ''
-}
-
-const handleUpdate = async (data: ITask) => {
-    let stFaill: ITaskStatus = data.stTask === 'A' ? 'B' : 'A'
-
-    const up = tasks.value.find((task) => task.id === data.id)
-
-    try {
-        if (up) up.stTask = data.stTask
-
-        await saveHandler(data)
-    } catch (error: any) {
-        toast.error(error.message)
-
-        if (up) up.stTask = stFaill
-    }
-}
-
-const saveHandler = async (data: ITask) => {
-    const result = await apiGetCsrfToken()
-
-    const payloadTask: ITask = {
-        id: data?.id,
-        dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
-        description: data.description,
-        stTask: data.stTask,
-        'x-csrf-token': result.data,
-    }
-
-    await apiSaveTask(payloadTask)
-
-    clearNewTask()
-}
-
-const descriptionPage = computed(() => {
-    return `${tasks.value.length} tarefas cadastradas`
-})
-</script>
 
 <style scoped>
 .feedback-text {

@@ -1,3 +1,1 @@
-<template>
-    Página não encontrada
-</template>
+<template>Página não encontrada</template>

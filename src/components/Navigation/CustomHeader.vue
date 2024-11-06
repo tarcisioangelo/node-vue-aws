@@ -1,15 +1,3 @@
-<template>
-    <header class="custom-header">
-        <div class="logo-box">
-            <img src="/logo.png" width="40px" height="40px" />
-            <label class="font-bold text-xl md:text-3xl">USERTASKS</label>
-        </div>
-        <div>
-            <IconButton :icon="isDrawerOpen ? 'menu_open' : 'menu'" customClass="menu-button" @click="toggleDrawer" />
-        </div>
-    </header>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import IconButton from '../Buttons/IconButton.vue'
@@ -22,6 +10,18 @@ const toggleDrawer = () => {
     store.dispatch('drawer/toggleDrawer')
 }
 </script>
+
+<template>
+    <header class="custom-header">
+        <div class="logo-box">
+            <img src="/logo.png" width="40px" height="40px" />
+            <label class="font-bold text-xl md:text-3xl">USERTASKS</label>
+        </div>
+        <div>
+            <IconButton :icon="isDrawerOpen ? 'menu_open' : 'menu'" customClass="menu-button" @click="toggleDrawer" />
+        </div>
+    </header>
+</template>
 
 <style scoped>
 .custom-header {
