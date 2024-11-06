@@ -98,7 +98,7 @@ const handleAuth = async (data: IAuthUser) => {
                 </div>
             </FormContainer>
 
-            <div class="w-full m-auto text-center pt-4">
+            <div class="w-full md:w-64 m-auto text-center pt-4">
                 <DefaultButton text="Entrar na Usertasks" />
             </div>
             <p class="text-center text-sm mt-[4rem] mb-6">

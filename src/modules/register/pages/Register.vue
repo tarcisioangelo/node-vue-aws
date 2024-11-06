@@ -73,10 +73,9 @@ const handleRegister = async (data: IUserPayload) => {
 
 <template>
     <form @submit.prevent="handleSubmit" autocomplete="off">
-        <p class="text-[36px] mb-8">Cadastro:</p>
+        <p class="text-[36px] mt-3 md:mt-0 mb-3 md:mb-8">Cadastro:</p>
 
-        <p class="text-lg text-center">Crie sua conta e use todas as funcionalidades sem custo!</p>
-        <p class="text-center text-sm">já possui conta? <router-link class="link" to="/login">Login</router-link></p>
+        <p class="text-lg text-center leading-">Crie sua conta e organize suas tarefas!</p>
 
         <FormContainer class="mt-4">
             <div class="col-span-12 md:col-span-6">
@@ -137,8 +136,11 @@ const handleRegister = async (data: IUserPayload) => {
                 />
             </div>
         </FormContainer>
-        <div class="w-64 m-auto text-center pt-4">
+        <div class="w-full md:w-64 m-auto text-center pt-4">
             <DefaultButton text="Criar sua conta na Usertasks" />
         </div>
+        <p class="text-center text-sm my-8">
+            já possui conta? <router-link class="link" to="/login">Login</router-link>
+        </p>
     </form>
 </template>
