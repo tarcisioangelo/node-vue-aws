@@ -52,7 +52,6 @@ import type { ITask } from '@/modules/tasks/types'
 
 interface Props {
     task: ITask
-    isTaskDone: boolean
 }
 
 const toast = useToast()

@@ -6,7 +6,7 @@
             <div class="flex items-center gap-3 p-3 shadow-sm shadow-gray-900 bg-component rounded-md">
                 <div class="flex-1">
                     <DefaultInputText
-                        v-model="newTask"
+                        v-model="newTask.description"
                         custom-class="!mb-0"
                         id="newTask"
                         name="newTask"
@@ -15,7 +15,7 @@
                 </div>
                 <div class="flex-1/2">
                     <DefaultInputText
-                        v-model="newTask"
+                        v-model="newTask.date"
                         type="datetime"
                         custom-class="!mb-0"
                         id="dateTask"
@@ -25,7 +25,7 @@
                 </div>
                 <div class="flex-1/2">
                     <DefaultInputText
-                        v-model="newTask"
+                        v-model="newTask.time"
                         custom-class="!mb-0 "
                         id="timeTask"
                         name="newTask"
@@ -50,7 +50,6 @@
                 v-for="task in toStartTask"
                 :key="task.id"
                 :task="task"
-                :isTaskDone="isTaskDone(task.id)"
                 @taskDeleted="getAll"
                 @taskUpdated="handleUpdate"
             />
@@ -65,12 +64,11 @@
         <div v-if="isLoading" class="feedback-text">
             <p>Atualizando lista...</p>
         </div>
-        <div v-else-if="dones.length > 0" class="flex flex-col gap-3 mt-4 min-h-48">
+        <div v-else-if="donesTask.length > 0" class="flex flex-col gap-3 mt-4 min-h-48">
             <TaskRow
-                v-for="task in dones"
+                v-for="task in donesTask"
                 :key="task.id"
                 :task="task"
-                :isTaskDone="isTaskDone(task.id)"
                 @taskDeleted="getAll"
                 @taskUpdated="handleUpdate"
             />
@@ -83,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useToast } from 'vue-toastification'
 
 // Components
@@ -99,15 +97,20 @@ import type { ITask, ITaskStatus } from '@/modules/tasks/types'
 import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '@/services'
 
 import dayjs from 'dayjs'
+import Mask from '@/utils/mask'
 
 const tasks = ref<ITask[]>([])
 
 const toast = useToast()
-const newTask = ref<string>('')
-const donesTasks = ref<number[]>([])
+
+const newTask = reactive({
+    description: '',
+    time: '',
+    date: '',
+})
 const isLoading = ref<boolean>(false)
 
-const isDisabled = computed(() => newTask.value.length === 0)
+const isDisabled = computed(() => newTask.description.length === 0)
 
 const getAll = async () => {
     try {
@@ -126,11 +129,7 @@ onMounted(async () => {
     await getAll()
 })
 
-const isTaskDone = computed(() => {
-    return (taskId?: number) => (taskId ? donesTasks.value.includes(taskId) : false)
-})
-
-const dones = computed(() => {
+const donesTask = computed(() => {
     return tasks.value.filter((task) => task.stTask === 'B')
 })
 
@@ -138,13 +137,27 @@ const toStartTask = computed(() => {
     return tasks.value.filter((task) => task.stTask === 'A')
 })
 
+watch(
+    () => newTask.date,
+    (newVal) => {
+        if (newVal.length <= 8) newTask.date = Mask.dataBR(newVal)
+    }
+)
+
+watch(
+    () => newTask.time,
+    (newVal) => {
+        newTask.time = Mask.hora(newVal)
+    }
+)
+
 const handleAdd = async () => {
     try {
         isLoading.value = true
 
         const payloadTask: ITask = {
             dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
-            description: newTask.value,
+            description: newTask.description,
             stTask: 'A',
         }
 
@@ -190,7 +203,7 @@ const saveHandler = async (data: ITask) => {
 
     await apiSaveTask(payloadTask)
 
-    newTask.value = ''
+    newTask.description = ''
 }
 
 const descriptionPage = computed(() => {
