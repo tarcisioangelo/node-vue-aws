@@ -25,10 +25,10 @@ const toggleDrawer = () => {
 
 <style scoped>
 .custom-header {
-    @apply top-0 w-full relative   bg-component  h-[68px] shadow-sm shadow-violet-400 flex  items-center py-3 px-4 md:px-10 text-3xl font-semibold text-white;
+    @apply top-0 w-full relative   bg-component  h-[68px] shadow-sm shadow-gray-900 flex  items-center py-3 px-4 md:px-10 text-3xl font-semibold text-white;
 }
 .menu-button {
-    @apply bg-transparent shadow-lg shadow-violet-800 hover:bg-transparent w-12 h-12;
+    @apply bg-transparent  hover:bg-transparent w-12 h-12;
 }
 .logo-box {
     @apply flex m-auto items-center gap-3 cursor-pointer;
