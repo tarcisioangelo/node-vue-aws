@@ -1,7 +1,9 @@
 export interface ITask {
     id?: number
     description: string
-    dateTask?: string
-    stTask?: 'A' | 'B'
+    dateTask: string
+    stTask: ITaskStatus
     'x-csrf-token'?: string
 }
+
+export type ITaskStatus = 'A' | 'B'

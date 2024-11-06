@@ -18,8 +18,6 @@ export const apiLogin = async (payload: IAuthUser) => {
 
     const { data } = await api.post<IAuthResponse>(url, payload, headers)
 
-    console.log('apiLogin', api.getUri)
-
     return data
 }
 

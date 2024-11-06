@@ -2,7 +2,7 @@
     <TitlePage title="Tarefas" :description="descriptionPage" icon="checklist" />
 
     <div class="flex flex-col gap-y-3 mt-4">
-        <form class="" @submit.prevent="() => handleAdd(undefined)">
+        <form class="" @submit.prevent="() => handleAdd()">
             <div class="flex items-center gap-3 p-3 shadow-sm shadow-gray-900 bg-component rounded-md">
                 <div class="flex-1">
                     <DefaultInputText
@@ -52,7 +52,7 @@
                 :task="task"
                 :isTaskDone="isTaskDone(task.id)"
                 @taskDeleted="getAll"
-                @taskUpdated="handleAdd"
+                @taskUpdated="handleUpdate"
             />
         </div>
 
@@ -72,7 +72,7 @@
                 :task="task"
                 :isTaskDone="isTaskDone(task.id)"
                 @taskDeleted="getAll"
-                @taskUpdated="handleAdd"
+                @taskUpdated="handleUpdate"
             />
         </div>
 
@@ -83,13 +83,19 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
+
+// Components
 import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import TitlePage from '@/components/Navigation/TitlePage.vue'
-import { computed, onMounted, ref } from 'vue'
-import type { ITask } from '@/modules/tasks/types'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
+
+// Types
+import type { ITask, ITaskStatus } from '@/modules/tasks/types'
+
+// Services
 import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '@/services'
 
 import dayjs from 'dayjs'
@@ -132,26 +138,20 @@ const toStartTask = computed(() => {
     return tasks.value.filter((task) => task.stTask === 'A')
 })
 
-const handleAdd = async (taskParam: ITask | undefined = undefined) => {
+const handleAdd = async () => {
     try {
         isLoading.value = true
-        const result = await apiGetCsrfToken()
 
         const payloadTask: ITask = {
-            id: taskParam ? taskParam.id : undefined,
             dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
-            description: taskParam ? taskParam.description : newTask.value,
-            stTask: taskParam ? taskParam.stTask : 'A',
-            'x-csrf-token': result.data,
+            description: newTask.value,
+            stTask: 'A',
         }
 
-        console.log(payloadTask)
+        await saveHandler(payloadTask)
 
-        await apiSaveTask(payloadTask)
+        toast.success('Tarefa salva com sucesso!')
 
-        toast.success('Tarefa adicionada com sucesso!')
-
-        newTask.value = ''
         await getAll()
     } catch (error: any) {
         console.log(error)
@@ -159,6 +159,38 @@ const handleAdd = async (taskParam: ITask | undefined = undefined) => {
     } finally {
         isLoading.value = false
     }
+}
+
+const handleUpdate = async (data: ITask) => {
+    let stFaill: ITaskStatus = data.stTask === 'A' ? 'B' : 'A'
+
+    const up = tasks.value.find((task) => task.id === data.id)
+
+    try {
+        if (up) up.stTask = data.stTask
+
+        await saveHandler(data)
+    } catch (error: any) {
+        toast.error(error.message)
+
+        if (up) up.stTask = stFaill
+    }
+}
+
+const saveHandler = async (data: ITask) => {
+    const result = await apiGetCsrfToken()
+
+    const payloadTask: ITask = {
+        id: data?.id,
+        dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
+        description: data.description,
+        stTask: data.stTask,
+        'x-csrf-token': result.data,
+    }
+
+    await apiSaveTask(payloadTask)
+
+    newTask.value = ''
 }
 
 const descriptionPage = computed(() => {

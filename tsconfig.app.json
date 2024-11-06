@@ -24,6 +24,7 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "noUncheckedSideEffectImports": true,
+        "useUnknownInCatchVariables": false,
         "noImplicitAny": true,
         "baseUrl": ".",
         "paths": {
