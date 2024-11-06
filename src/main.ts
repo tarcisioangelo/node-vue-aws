@@ -9,7 +9,6 @@ import VueTheMask from 'vue-the-mask'
 const optionsToast = {
     position: 'top-right',
     toastClassName: '!transition !delay-0',
-
     hideProgressBar: true,
     timeout: 2000,
     transition: 'Vue-Toastification__fade',

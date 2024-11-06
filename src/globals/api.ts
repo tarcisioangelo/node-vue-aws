@@ -24,6 +24,7 @@ const success = (response: any) => {
     if (response.data.error) {
         return Promise.reject(response.data)
     }
+
     return response.data
 }
 
