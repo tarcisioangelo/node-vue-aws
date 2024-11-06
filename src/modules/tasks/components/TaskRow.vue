@@ -30,7 +30,7 @@
   
    
       <div v-if="!isEdit" class="flex gap-2 order-2 md:order-3 justify-end w-auto">
-        <IconButton @click="toggleStatus" class="bg-success hover:bg-success" icon="check" />
+        <IconButton v-if="!isDone" @click="toggleStatus" class="bg-success hover:bg-success" icon="check" />
         <IconButton v-if="!isDone" @click="ableEdit" class="bg-input" icon="edit" />
         <IconButton @click="handleDelete" class="bg-red-700 hover:bg-red-500" icon="delete" />
       </div>
