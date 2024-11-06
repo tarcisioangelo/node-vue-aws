@@ -137,20 +137,6 @@ const toStartTask = computed(() => {
     return tasks.value.filter((task) => task.stTask === 'A')
 })
 
-watch(
-    () => newTask.date,
-    (newVal) => {
-        if (newVal.length <= 8) newTask.date = Mask.dataBR(newVal)
-    }
-)
-
-watch(
-    () => newTask.time,
-    (newVal) => {
-        newTask.time = Mask.hora(newVal)
-    }
-)
-
 const handleAdd = async () => {
     try {
         isLoading.value = true

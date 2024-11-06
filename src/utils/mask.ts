@@ -8,12 +8,13 @@ const Mask = {
     dataBR(data: string) {
         if (!data) return ''
 
-        let v = data.replace(/\D/g, '') // Remove tudo o que não é dígito
+        let v = data
+        v = v.replace(/\D/g, '') // Remove tudo o que não é dígito
 
-        // Aplica a máscara
-        v = v.replace(/^(\d{2})(\d)/, '$1/$2') // Coloca barra depois dos dois primeiros dígitos
-        v = v.replace(/(\d{2})(\d{1,4})$/, '$1/$2') // Coloca barra depois dos quatro primeiros dígitos
+        v = v.replace(/^(\d{2})(\d)/g, '$1/$2') // Coloca barra depois dos dois primeiros dígitos
+        v = v.replace(/(\d)(\d{4})$/, '$1/$2') // Coloca barra depois dos quatro primeiros dígitos
 
+        if (v.length > 8) v = v.slice(0, 8)
         return v
     },
 

@@ -7,6 +7,7 @@
     <input
         v-bind="$attrs"
         ref="input"
+        v-mask="'##:##'"
         v-model="model"
         :class="['input_default', customClass]"
         :type="type"
