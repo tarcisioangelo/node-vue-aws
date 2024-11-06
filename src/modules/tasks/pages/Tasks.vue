@@ -3,8 +3,10 @@
 
     <div class="flex flex-col gap-y-3 mt-4">
         <form class="" @submit.prevent="() => handleAdd()">
-            <div class="flex items-center gap-3 p-3 shadow-sm shadow-gray-900 bg-component rounded-md">
-                <div class="flex-1">
+            <div
+                class="flex flex-col md:flex-row md:flex-nowrap gap-3 p-3 shadow-sm shadow-gray-900 bg-component rounded-md"
+            >
+                <div class="w-full md:flex-1">
                     <DefaultInputText
                         v-model="newTask.description"
                         custom-class="!mb-0"
@@ -13,30 +15,29 @@
                         placeholder="Nova tarefa..."
                     />
                 </div>
-                <div class="flex-1/2">
+
+                <div class="w-full md:w-auto flex flex-nowrap">
                     <MaskedInput
                         v-model="newTask.date"
                         mask="##/##/####"
                         type="datetime"
-                        custom-class="!mb-0"
+                        custom-class="!mb-0 mr-1 md:mr-2"
                         id="dateTask"
                         name="dateTask"
                         placeholder="Data"
                     />
-                </div>
-                <div class="flex-1/2">
                     <MaskedInput
                         v-model="newTask.time"
                         mask="##:##"
-                        custom-class="!mb-0 "
+                        custom-class="!mb-0 ml-1"
                         id="timeTask"
                         name="newTask"
                         placeholder="Hora"
                     />
                 </div>
+
                 <DefaultButton
-                    text="Adicionar tarefa"
-                    icon="add_circle"
+                    :text="newTask.id ? 'Atualizar' : 'Adicionar tarefa'"
                     customClass="md:ml-4 h-[41px] md:h-[51px] !min-w-auto md:max-w-[300px] "
                     :is-disabled="isDisabled || isLoading"
                 />
@@ -52,8 +53,10 @@
                 v-for="task in toStartTask"
                 :key="task.id"
                 :task="task"
+                :isEdit="!!newTask.id"
                 @taskDeleted="getAll"
                 @taskUpdated="handleUpdate"
+                @taskEdit="handleEdit"
             />
         </div>
 
@@ -71,8 +74,10 @@
                 v-for="task in donesTask"
                 :key="task.id"
                 :task="task"
+                :isEdit="!!newTask.id"
                 @taskDeleted="getAll"
                 @taskUpdated="handleUpdate"
+                @taskEdit="handleEdit"
             />
         </div>
 
@@ -83,7 +88,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useToast } from 'vue-toastification'
 
 // Components
@@ -95,23 +100,23 @@ import TitlePage from '@/components/Navigation/TitlePage.vue'
 import TaskRow from '@/modules/tasks/components/TaskRow.vue'
 
 // Types
-import type { ITask, ITaskStatus } from '@/modules/tasks/types'
+import type { ITask, ITaskEdit, ITaskStatus } from '@/modules/tasks/types'
 
 // Services
 import { apiGetCsrfToken, apiListTasks, apiSaveTask } from '@/services'
 
 import dayjs from 'dayjs'
-import Mask from '@/utils/mask'
 
 const tasks = ref<ITask[]>([])
 
 const toast = useToast()
 
-const newTask = reactive({
+const newTask = reactive<ITaskEdit>({
     description: '',
     time: '',
     date: '',
 })
+
 const isLoading = ref<boolean>(false)
 
 const isDisabled = computed(() => newTask.description.length === 0)
@@ -146,6 +151,7 @@ const handleAdd = async () => {
         isLoading.value = true
 
         const payloadTask: ITask = {
+            id: newTask?.id,
             dateTask: dayjs().format('YYYY-MM-DD HH:mm'),
             description: newTask.description,
             stTask: 'A',
@@ -162,6 +168,20 @@ const handleAdd = async () => {
     } finally {
         isLoading.value = false
     }
+}
+
+const handleEdit = (data: ITask) => {
+    newTask.id = data.id
+    newTask.description = data.description
+    newTask.date = dayjs(data.dateTask).format('DD/MM/YYYY')
+    newTask.time = dayjs(data.dateTask).format('HH:mm')
+}
+
+const clearNewTask = () => {
+    newTask.id = undefined
+    newTask.description = ''
+    newTask.date = ''
+    newTask.time = ''
 }
 
 const handleUpdate = async (data: ITask) => {
@@ -193,7 +213,7 @@ const saveHandler = async (data: ITask) => {
 
     await apiSaveTask(payloadTask)
 
-    newTask.description = ''
+    clearNewTask()
 }
 
 const descriptionPage = computed(() => {

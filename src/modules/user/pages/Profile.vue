@@ -2,46 +2,8 @@
     <TitlePage title="Perfil" icon="person" />
 
     <form @submit.prevent="handleSubmit" autocomplete="off">
-        <p class="text-xl font-semibold mt-4">Dados do usuário</p>
-
-        <FormContainer custom-class="mt-4">
-            <div class="col-span-12 md:col-span-6">
-                <DefaultInputText
-                    required
-                    v-model="userRef.firstName"
-                    id="firstName"
-                    name="firstName"
-                    label="Nome"
-                    placeholder="Digite seu nome"
-                    :v$="v$"
-                />
-            </div>
-            <div class="col-span-12 md:col-span-6">
-                <DefaultInputText
-                    required
-                    v-model="userRef.lastName"
-                    id="lastName"
-                    name="lastName"
-                    label="Sobrenome"
-                    placeholder="Digite seu sobrenome"
-                    :v$="v$"
-                />
-            </div>
-            <div class="col-span-12">
-                <DefaultInputText
-                    required
-                    v-model="userRef.email"
-                    id="email"
-                    name="email"
-                    label="Email"
-                    placeholder="teste@gmail.com"
-                    :v$="v$"
-                />
-            </div>
-        </FormContainer>
-        <div class="w-64 m-auto pt-4">
-            <DefaultButton text="Atualizar dados" />
-        </div>
+        <p class="text-xl font-semibold mt-4">{{ userRef.firstName }} {{ userRef.lastName }}</p>
+        <p class="text-xl font-semibold mt-4">{{ userRef.email }}</p>
     </form>
 
     <FormPassword />
@@ -58,9 +20,6 @@ import { useToast } from 'vue-toastification'
 import { useStore } from 'vuex'
 
 // Components
-import DefaultButton from '@/components/Buttons/DefaultButton.vue'
-import FormContainer from '@/components/Form/FormContainer.vue'
-import DefaultInputText from '@/components/Form/DefaultInputText.vue'
 import type { IUserPayload } from '@/modules/register/types'
 import TitlePage from '@/components/Navigation/TitlePage.vue'
 import FormPassword from '../components/FormPassword.vue'
@@ -121,7 +80,7 @@ const handleRegister = async (data: IUserPayload) => {
 
         const payloadSave = {
             ...data,
-            'x-csrf-token': result.data
+            'x-csrf-token': result.data,
         }
 
         await apiRegister(payloadSave)

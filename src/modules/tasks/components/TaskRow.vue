@@ -4,45 +4,32 @@
         :class="{ '!border-l-success': isDone }"
     >
         <div class="w-full md:flex-1 order-3 md:order-2 text-xl">
-            <form v-if="isEdit" @submit.prevent="handleUpdate">
-                <div class="flex flex-wrap md:flex-nowrap">
-                    <DefaultInputText
-                        v-model="model.description"
-                        ref="inputRef"
-                        id="inputEditText"
-                        name="inputEditText"
-                        placeholder="Digite o nome da tarefa..."
-                        custom-class="!bg-transparent border-b !rounded-[0px] border-b-primary md:mt-1 md:mb-1"
-                    />
-                    <DefaultButton
-                        text="Atualizar"
-                        customClass="bg-success hover:bg-success md:ml-4 h-[41px] md:h-[51px] !min-w-auto text-xs md:max-w-[200px]"
-                    />
-                </div>
-            </form>
-
-            <label v-else>
+            <div class="w-full">
                 {{ model.description }}
-            </label>
+            </div>
+            <div class="mr-[5rem] text-[14px] text-gray-300">
+                <label>
+                    {{ dayjs(model.dateTask).format('DD/MM/YYYY') }}
+                </label>
+                <label> às {{ dayjs(model.dateTask).format('HH:mm') }} </label>
+            </div>
         </div>
 
-        <div v-if="!isEdit" class="flex gap-2 order-2 md:order-3 justify-end w-auto">
+        <div class="flex gap-2 order-2 md:order-3 justify-end w-full md:w-auto">
             <IconButton v-if="!isDone" @click="toggleStatus" class="bg-success hover:bg-success" icon="check" />
-            <IconButton v-if="isDone" @click="toggleStatus" class="bg-success hover:bg-success" icon="check" />
             <IconButton v-if="!isDone" @click="ableEdit" class="bg-input" icon="edit" />
+            <IconButton v-if="isDone" @click="toggleStatus" class="bg-input hover:bg-input" icon="close" />
             <IconButton @click="handleDelete" class="bg-red-700 hover:bg-red-500" icon="delete" />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, reactive, ref } from 'vue'
+import { computed, reactive } from 'vue'
 import { useToast } from 'vue-toastification'
+import dayjs from 'dayjs'
 
 // Components
-import DefaultInputText from '@/components/Form/DefaultInputText.vue'
-// import MaskedInput from '@/components/Form/MaskedInput.vue'
-import DefaultButton from '@/components/Buttons/DefaultButton.vue'
 import IconButton from '@/components/Buttons/IconButton.vue'
 
 // Services
@@ -53,6 +40,7 @@ import type { ITask } from '@/modules/tasks/types'
 
 interface Props {
     task: ITask
+    isEdit: boolean
 }
 
 const toast = useToast()
@@ -65,9 +53,6 @@ const model = reactive({
     stTask: task.stTask,
 })
 
-const isEdit = ref(false)
-const inputRef = ref<{ input: HTMLInputElement } | null>(null)
-
 const isDone = computed(() => {
     return model.stTask === 'B'
 })
@@ -75,6 +60,7 @@ const isDone = computed(() => {
 const emit = defineEmits<{
     (e: 'taskDeleted'): void
     (e: 'taskUpdated', task: ITask): void
+    (e: 'taskEdit', task: ITask): void
 }>()
 
 const toggleStatus = () => {
@@ -83,16 +69,8 @@ const toggleStatus = () => {
 }
 
 const ableEdit = async () => {
-    isEdit.value = true
-    await nextTick()
-    if (inputRef.value?.input) {
-        inputRef.value.input.focus()
-    }
-}
-
-const handleUpdate = () => {
-    emit('taskUpdated', model)
-    isEdit.value = false
+    emit('taskEdit', model)
+    // isEdit.value = true
 }
 
 const handleDelete = async () => {

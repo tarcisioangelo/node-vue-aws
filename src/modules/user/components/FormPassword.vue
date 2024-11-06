@@ -1,8 +1,8 @@
 <template>
     <form @submit.prevent="handleSubmitPassword" autocomplete="off">
-        <p class="text-xl font-semibold my-4">Segurança</p>
+        <p class="text-xl font-semibold my-4 border-t border-t-input pt-4">Segurança</p>
         <FormContainer>
-            <div class="col-span-12 md:col-span-4">
+            <div class="col-span-12 md:col-span-3">
                 <DefaultInputText
                     required
                     v-model="refPassword.password"
@@ -14,7 +14,7 @@
                     :v$="v$"
                 />
             </div>
-            <div class="col-span-12 md:col-span-4">
+            <div class="col-span-12 md:col-span-3">
                 <DefaultInputText
                     required
                     v-model="refPassword.newPassword"
@@ -26,7 +26,7 @@
                     :v$="v$"
                 />
             </div>
-            <div class="col-span-12 md:col-span-4">
+            <div class="col-span-12 md:col-span-3">
                 <DefaultInputText
                     required
                     v-model="refPassword.newPasswordConfirm"
@@ -38,10 +38,10 @@
                     :v$="v$"
                 />
             </div>
+            <div class="col-span-12 md:col-span-3 pt-6">
+                <DefaultButton text="Atualizar senha" />
+            </div>
         </FormContainer>
-        <div class="w-64 m-auto pt-4">
-            <DefaultButton text="Atualizar senha" />
-        </div>
     </form>
 </template>
 <script lang="ts" setup>
@@ -117,5 +117,4 @@ const handleUpdatePassword = async (data: IPassword) => {
         toast.error(error.message)
     }
 }
-
 </script>
