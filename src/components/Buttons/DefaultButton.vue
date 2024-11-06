@@ -39,6 +39,6 @@ const handleClick = () => {
     @apply cursor-pointer;
 }
 .btn-disabled {
-    @apply bg-slate-400 hover:bg-gray-100 text-gray-600 cursor-not-allowed;
+    @apply bg-gray-600 hover:bg-gray-600 text-slate-400 cursor-not-allowed;
 }
 </style>
